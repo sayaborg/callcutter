@@ -1,0 +1,20 @@
+{
+  "name": "callcutter",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run check && node --import tsx --test 'tests/*.test.mjs'",
+    "page": "node --import tsx page/build.mjs && node page/check.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.15",
+    "typescript": "5.9.2"
+  }
+}

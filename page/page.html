@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CALL CUTTER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column for a phone. The engine, its exhaust drawn to scale, the rate, the tachometer, a tall throttle pad. */
+:root {
+  --bg: #e9ecee; --surface: #f7f8f9; --ink: #14181c; --muted: #5b6670; --line: #c9d0d6;
+  --accent: #d8401f; --cut: #9a5b00;
+  --display: "Chakra Petch", "Zen Kaku Gothic New", system-ui, sans-serif;
+  --body: "Zen Kaku Gothic New", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --bg: #0f1214; --surface: #191e22; --ink: #e9edf0; --muted: #94a0aa; --line: #2c343a; --accent: #ff6a45; --cut: #e0a040; }
+}
+:root[data-theme="dark"] { color-scheme: dark; --bg: #0f1214; --surface: #191e22; --ink: #e9edf0; --muted: #94a0aa; --line: #2c343a; --accent: #ff6a45; --cut: #e0a040; }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+main { max-width: 560px; min-height: 100%; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+h1 { font-family: var(--display); font-size: 18px; letter-spacing: 0.06em; margin: 0; }
+h1 span { color: var(--muted); font-family: var(--body); font-weight: 400; font-size: 13px; letter-spacing: 0; margin-left: 8px; }
+.pick { display: flex; gap: 6px; }
+.pick select { flex: 1; min-width: 0; font: inherit; font-family: var(--display); font-size: 16px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 8px; }
+.pick button { font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0 14px; cursor: pointer; }
+.pick button:focus-visible, .pick select:focus-visible, .pad:focus-visible, .form label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.spec { color: var(--muted); font-size: 12px; margin-top: -8px; font-variant-numeric: tabular-nums; }
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px 8px; display: grid; gap: 6px; }
+.plan svg { display: block; width: 100%; height: auto; }
+.plan .tube { stroke: var(--ink); stroke-linecap: butt; fill: none; opacity: 0.82; }
+.plan .box { stroke: var(--accent); opacity: 0.9; }
+.plan .rule { stroke: var(--muted); stroke-width: 1; }
+.plan text { fill: var(--muted); font-family: var(--body); font-size: 10px; }
+.plan ul { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; border: 0; padding: 0; margin: 0; }
+.form legend { padding: 0; margin-bottom: 4px; color: var(--muted); font-size: 12px; }
+.form label { display: block; text-align: center; font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 9px 6px; cursor: pointer; }
+.form input { position: absolute; opacity: 0; pointer-events: none; }
+.form label:has(input:checked) { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.tach { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 8px; }
+.readout { display: flex; align-items: baseline; gap: 8px; }
+.rpm { font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1; font-variant-numeric: tabular-nums; }
+.unit { color: var(--muted); font-size: 13px; }
+.pill { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--cut); border: 1px solid var(--cut); border-radius: 999px; padding: 1px 9px; visibility: hidden; }
+.pill.on { visibility: visible; }
+.bar { position: relative; height: 14px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.bar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); }
+.bar b { position: absolute; top: 0; bottom: 0; right: 0; background: var(--accent); opacity: 0.35; }
+.scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.pad { position: relative; flex: 1; min-height: 240px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: ns-resize; overflow: hidden; }
+.pad .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: var(--accent); opacity: 0.22; }
+.pad .edge { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); }
+.pad .label { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px; pointer-events: none; }
+.pad .pct { font-family: var(--display); font-weight: 700; font-size: 34px; font-variant-numeric: tabular-nums; }
+.pad .hint { color: var(--muted); font-size: 13px; padding: 0 16px; }
+.pad .top, .pad .bottom { position: absolute; left: 10px; font-size: 11px; color: var(--muted); pointer-events: none; }
+.pad .top { top: 8px; } .pad .bottom { bottom: 8px; }
+.cam { display: grid; gap: 4px; }
+.cam label { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.cam label span { display: flex; gap: 6px; align-items: center; }
+.cam output { font-family: var(--display); font-variant-numeric: tabular-nums; }
+.cam input { width: 100%; accent-color: var(--accent); margin: 0; }
+.cam input:disabled { opacity: 0.4; }
+.row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; color: var(--muted); font-size: 12px; }
+.row label { display: flex; gap: 6px; align-items: center; color: var(--ink); font-size: 13px; }
+.row .load { margin-left: auto; font-variant-numeric: tabular-nums; }
+.row .load.hot { color: var(--accent); font-weight: 700; }
+p.note { margin: 0; color: var(--muted); font-size: 12px; }
+#error { color: var(--accent); font-size: 13px; margin: 0; }
+#error:empty { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>CALL CUTTER<span>free rev</span></h1>
+  <div class="pick">
+    <button type="button" id="prev" aria-label="Previous engine">◀</button>
+    <select id="cars" aria-label="Engine"></select>
+    <button type="button" id="next" aria-label="Next engine">▶</button>
+  </div>
+  <div class="spec" id="spec"></div>
+  <section class="plan" aria-label="The exhaust">
+    <svg id="plan" role="img" aria-label="The exhaust's tubes drawn to one scale"></svg>
+    <ul id="boxes"></ul>
+  </section>
+  <fieldset class="form">
+    <legend>Kernel rate</legend>
+    <label><input type="radio" name="divisor" value="1"> 48 kHz</label>
+    <label><input type="radio" name="divisor" value="2" checked> 24 kHz</label>
+    <label><input type="radio" name="divisor" value="4"> 12 kHz</label>
+  </fieldset>
+  <section class="tach" aria-label="Tachometer">
+    <div class="readout"><span class="rpm" id="rpm">0</span><span class="unit">rpm</span><span class="pill" id="cut">FUEL CUT</span></div>
+    <div class="bar"><b id="zone"></b><i id="needle"></i></div>
+    <div class="scale"><span>0</span><span id="mid"></span><span id="max"></span></div>
+  </section>
+  <div class="pad" id="pad" tabindex="0" role="slider" aria-label="Throttle" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="fill" id="fill"></div><div class="edge" id="edge"></div>
+    <span class="top">OPEN</span><span class="bottom">SHUT</span>
+    <div class="label"><span class="pct" id="pct">0%</span><span class="hint" id="hint">Press here to start. Move up and down to open the throttle.</span></div>
+  </div>
+  <div class="cam">
+    <label for="fixRpm"><span><input type="checkbox" id="fix"> Hold the engine speed</span><output id="fixValue"></output></label>
+    <input type="range" id="fixRpm" min="800" max="7000" step="50" value="4000" disabled>
+  </div>
+  <div class="row">
+    <label><input type="checkbox" id="hold"> Keep the opening when released</label>
+    <span class="load" id="load">load —</span>
+  </div>
+  <p id="error" role="alert"></p>
+  <p class="note">The exhaust is drawn to one scale, lengths and diameters alike; pipes wider than 75 mm that are not tails are drawn as boxes. The engine's speed follows a simple stand-in (its torque curve, friction and one inertia). The fuel is cut at 1.05 times the redline; with the throttle shut above 1.3 times idle an afterfire comes once a second on average. Space is full throttle, 1 to 9 are 10 to 90 %. Everything plays 6 dB down.</p>
+</main>
+<script id="kernel">__BUNDLE__</script>
+<script>
+const CARS = __ENGINES__;
+const WORKLET = `
+class CallCutter extends AudioWorkletProcessor {
+  constructor(options) {
+    super();
+    this.sim = new CC.Sim(options.processorOptions.engines, sampleRate);
+    this.buffer = new Float32Array(512); this.at = 512; this.count = 0;
+    this.port.onmessage = (event) => {
+      if (event.data.divisor) this.sim.setDivisor(event.data.divisor);
+      if (event.data.engine) this.sim.setEngine(event.data.engine);
+      if (event.data.hold !== undefined) this.sim.hold = event.data.hold;
+      if (event.data.throttle !== undefined) this.sim.throttle = event.data.throttle;
+    };
+  }
+  process(inputs, outputs) {
+    const out = outputs[0][0];
+    for (let i = 0; i < out.length; i++) {
+      if (this.at >= 512) { this.sim.process(this.buffer); this.at = 0; }
+      out[i] = this.buffer[this.at++];
+    }
+    if ((this.count++ & 7) === 0) this.port.postMessage({ rpm: this.sim.rpm, cut: this.sim.cut, load: this.sim.load });
+    return true;
+  }
+}
+registerProcessor('callcutter', CallCutter);
+`;
+const $ = (id) => document.getElementById(id);
+let car = '__FIRST__', throttle = 0, context = null, send = null, local = null;
+const divisor = () => +document.querySelector('input[name="divisor"]:checked').value;
+const BOX = 0.075;
+/** A box: a pipe wider than 75 mm that is not a tail (a tail opens to the outside). */
+const isBox = (p) => p.to !== null && p.diameter > BOX;
+
+/**
+ * The exhaust drawn to one scale: each tube a line as long as its length and as thick as its diameter. A junction
+ * stands as far left of the mouths as its longest way out; a tube starts its own length before the junction it enters.
+ * Cylinders are stacked in the order of their ways out, and a junction stands at the mean height of what enters it.
+ */
+function drawPlan(sound) {
+  const { primaries, pipes } = sound.exhaust;
+  const out = new Map();
+  pipes.forEach((p) => { if (!out.has(p.from)) out.set(p.from, []); out.get(p.from).push(p); });
+  const reach = new Map();
+  const toMouth = (j) => {
+    if (!reach.has(j)) reach.set(j, Math.max(0, ...(out.get(j) || []).map((p) => p.length + (p.to === null ? 0 : toMouth(p.to)))));
+    return reach.get(j);
+  };
+  const way = (j) => { const p = (out.get(j) || [])[0]; return p && p.to !== null ? [...way(p.to), j] : [j]; };
+  const order = primaries.map((p, i) => ({ i, key: way(p.to) })).sort((a, b) => {
+    for (let k = 0; k < Math.min(a.key.length, b.key.length); k++) if (a.key[k] !== b.key[k]) return a.key[k] - b.key[k];
+    return a.key.length - b.key.length || primaries[b.i].length - primaries[a.i].length || a.i - b.i;
+  });
+  const widest = Math.max(...pipes.map((p) => p.diameter), ...primaries.map((p) => p.diameter));
+  const gap = Math.max(0.05, (1.15 * widest * 2) / Math.max(2, primaries.length / 2));
+  const yCylinder = new Map(order.map((o, rank) => [o.i, rank * gap]));
+  const entering = new Map();
+  const note = (j, y) => { if (!entering.has(j)) entering.set(j, []); entering.get(j).push(y); };
+  primaries.forEach((p, i) => note(p.to, yCylinder.get(i)));
+  const yJunction = new Map();
+  const junctions = [...new Set([...primaries.map((p) => p.to), ...pipes.flatMap((p) => (p.to === null ? [p.from] : [p.from, p.to]))])].sort((a, b) => toMouth(b) - toMouth(a));
+  for (const j of junctions) {
+    const ys = entering.get(j) || [0];
+    const y = ys.reduce((s, v) => s + v, 0) / ys.length;
+    yJunction.set(j, y);
+    // Pipes that part at a junction, each to its own junction, are drawn apart.
+    const parting = (out.get(j) || []).filter((p) => p.to !== null);
+    parting.forEach((p, k) => note(p.to, y + (k - (parting.length - 1) / 2) * 1.3 * widest));
+  }
+  const tubes = [];
+  primaries.forEach((p, i) => tubes.push({ x1: -toMouth(p.to) - p.length, y1: yCylinder.get(i), x2: -toMouth(p.to), y2: yJunction.get(p.to), d: p.diameter }));
+  for (const [j, list] of out) {
+    const mouths = list.filter((p) => p.to === null);
+    list.forEach((p) => {
+      const x1 = -toMouth(j), y1 = yJunction.get(j);
+      const spread = p.to === null ? (mouths.indexOf(p) - (mouths.length - 1) / 2) * Math.max(1.6 * p.diameter, 0.06) : 0;
+      tubes.push({ x1, y1: y1 + spread, x2: x1 + p.length, y2: p.to === null ? y1 + spread : yJunction.get(p.to), d: p.diameter, box: isBox(p) });
+    });
+  }
+  const left = Math.min(...tubes.map((t) => t.x1)), top = Math.min(...tubes.map((t) => Math.min(t.y1, t.y2) - t.d / 2)), bottom = Math.max(...tubes.map((t) => Math.max(t.y1, t.y2) + t.d / 2));
+  const width = -left, scale = 520 / Math.max(width, 0.8), pad = 8, ruleY = (bottom - top) * scale + pad + 14;
+  const X = (x) => (pad + (x - left) * scale).toFixed(1), Y = (y) => (pad + (y - top) * scale).toFixed(1);
+  let svg = '';
+  for (const t of tubes.sort((a, b) => (a.box ? 1 : 0) - (b.box ? 1 : 0))) svg += '<line class="tube' + (t.box ? ' box' : '') + '" x1="' + X(t.x1) + '" y1="' + Y(t.y1) + '" x2="' + X(t.x2) + '" y2="' + Y(t.y2) + '" stroke-width="' + Math.max(1.5, t.d * scale).toFixed(1) + '"/>';
+  const bar = width > 1.6 ? 0.5 : width > 0.6 ? 0.2 : 0.1;
+  svg += '<line class="rule" x1="' + pad + '" y1="' + ruleY + '" x2="' + (pad + bar * scale).toFixed(1) + '" y2="' + ruleY + '"/><text x="' + (pad + bar * scale + 6).toFixed(1) + '" y="' + (ruleY + 3.5) + '">' + bar * 100 + ' cm</text>';
+  const plan = $('plan');
+  plan.setAttribute('viewBox', '0 0 ' + (520 + 2 * pad) + ' ' + (ruleY + 10).toFixed(0));
+  plan.innerHTML = svg;
+  const kinds = new Map();
+  for (const p of pipes) if (isBox(p)) { const k = Math.round(p.length * 100) + ' cm × ' + Math.round(p.diameter * 1000) + ' mm(' + ((Math.PI * p.diameter * p.diameter * p.length) / 4 * 1000).toFixed(1) + ' L)'; kinds.set(k, (kinds.get(k) || 0) + 1); }
+  let litres = 0; for (const p of pipes) if (isBox(p)) litres += (Math.PI * p.diameter * p.diameter * p.length) / 4 * 1000;
+  $('boxes').innerHTML = (kinds.size ? [...kinds].map(([k, n]) => '<li>box ' + k + ' × ' + n + '</li>').join('') + '<li>boxes ' + litres.toFixed(1) + ' L · ' : '<li>no box · ') + pipes.length + ' pipes + ' + primaries.length + ' primaries</li>';
+}
+function show(state) {
+  const c = CARS[car], top = 1.1 * c.redlineRpm;
+  $('rpm').textContent = Math.round(state.rpm / 10) * 10;
+  $('needle').style.width = Math.min(100, (100 * state.rpm) / top) + '%';
+  $('cut').classList.toggle('on', !!state.cut);
+  if (state.load !== undefined) {
+    $('load').textContent = 'load ' + Math.round(100 * state.load) + '%';
+    $('load').classList.toggle('hot', state.load > 0.8);
+  }
+}
+function selectCar(id) {
+  car = id;
+  const c = CARS[id], top = 1.1 * c.redlineRpm;
+  $('cars').value = id;
+  $('spec').textContent = c.cylinders + ' cylinders · ' + c.litres.toFixed(1) + ' L · redline ' + c.redlineRpm + ' rpm';
+  $('zone').style.width = (100 * (top - c.redlineRpm)) / top + '%';
+  $('mid').textContent = Math.round(top / 2 / 100) * 100;
+  $('max').textContent = Math.round(top / 100) * 100;
+  drawPlan(c.sound);
+  if (send) send({ engine: id });
+  const fixRpm = $('fixRpm');
+  fixRpm.min = c.idleRpm; fixRpm.max = Math.round((1.04 * c.redlineRpm) / 50) * 50; fixRpm.value = Math.round((0.6 * c.redlineRpm) / 50) * 50;
+  setHold();
+  show({ rpm: c.idleRpm, cut: false });
+}
+function setHold() {
+  const on = $('fix').checked;
+  $('fixRpm').disabled = !on;
+  $('fixValue').textContent = on ? $('fixRpm').value + ' rpm' : '';
+  if (send) send({ hold: on ? +$('fixRpm').value : null });
+}
+function setThrottle(value) {
+  throttle = Math.max(0, Math.min(1, value));
+  $('fill').style.height = $('edge').style.bottom = 100 * throttle + '%';
+  $('pct').textContent = Math.round(100 * throttle) + '%';
+  $('pad').setAttribute('aria-valuenow', Math.round(100 * throttle));
+  if (send) send({ throttle });
+}
+async function start() {
+  if (context) { if (context.state !== 'running') context.resume(); return; }
+  try {
+    context = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: 'interactive' });
+    try {
+      const url = URL.createObjectURL(new Blob([$('kernel').textContent + WORKLET], { type: 'text/javascript' }));
+      await context.audioWorklet.addModule(url);
+      const node = new AudioWorkletNode(context, 'callcutter', { numberOfInputs: 0, outputChannelCount: [1], processorOptions: { engines: CARS } });
+      node.port.onmessage = (event) => show(event.data);
+      send = (message) => node.port.postMessage(message);
+      node.connect(context.destination);
+    } catch (refused) {
+      // No worklet here: compute on the page's own thread.
+      local = new CC.Sim(CARS, context.sampleRate);
+      const node = context.createScriptProcessor(1024, 0, 1);
+      node.onaudioprocess = (event) => { local.process(event.outputBuffer.getChannelData(0)); };
+      send = (message) => { if (message.divisor) local.setDivisor(message.divisor); if (message.engine) local.setEngine(message.engine); if (message.hold !== undefined) local.hold = message.hold; if (message.throttle !== undefined) local.throttle = message.throttle; };
+      node.connect(context.destination);
+      setInterval(() => show(local), 50);
+    }
+    send({ divisor: divisor(), engine: car, throttle });
+    setHold();
+    await context.resume();
+    $('hint').textContent = 'Move up and down to open the throttle.';
+  } catch (error) {
+    $('error').textContent = 'No sound could be started (' + (error && error.message ? error.message : error) + '). Open the page again and press once more.';
+    context = null;
+  }
+}
+const order = Object.keys(CARS);
+for (const id of order) {
+  const option = document.createElement('option');
+  option.value = id; option.textContent = CARS[id].name;
+  $('cars').appendChild(option);
+}
+$('cars').addEventListener('change', () => { selectCar($('cars').value); start(); });
+const step = (by) => { selectCar(order[(order.indexOf(car) + by + order.length) % order.length]); start(); };
+$('prev').addEventListener('click', () => step(-1));
+$('next').addEventListener('click', () => step(1));
+for (const radio of document.querySelectorAll('input[name="divisor"]')) radio.addEventListener('change', () => { if (send) send({ divisor: divisor() }); start(); });
+$('fix').addEventListener('change', () => { setHold(); start(); });
+$('fixRpm').addEventListener('input', setHold);
+const pad = $('pad');
+const fromPointer = (event) => { const r = pad.getBoundingClientRect(); setThrottle(1 - (event.clientY - r.top) / r.height); };
+pad.addEventListener('pointerdown', (event) => { pad.setPointerCapture(event.pointerId); start(); fromPointer(event); });
+pad.addEventListener('pointermove', (event) => { if (pad.hasPointerCapture(event.pointerId)) fromPointer(event); });
+const release = () => { if (!$('hold').checked) setThrottle(0); };
+pad.addEventListener('pointerup', release);
+pad.addEventListener('pointercancel', release);
+window.addEventListener('keydown', (event) => {
+  if (event.repeat || event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') return;
+  if (event.code === 'Space') { event.preventDefault(); start(); setThrottle(1); }
+  else if (/^[1-9]$/.test(event.key)) { start(); setThrottle(event.key / 10); }
+  else if (event.key === '0') setThrottle(0);
+});
+window.addEventListener('keyup', (event) => { if (event.code === 'Space') release(); });
+selectCar(car);
+</script>
+</body>
+</html>

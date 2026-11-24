@@ -1,0 +1,577 @@
+# Calibration values
+
+These tables describe the authored settings. [Vehicle physics](vehicle-physics.md),
+[Audio](audio.md) and [Tire audio](tire-audio.md) define their models;
+[Browser](browser.md#dev-controls) defines the controls.
+
+## Vehicle settings
+
+The [game-wide driving definition](../content/driving/default.json) is the sole value authority
+for cars and bikes in browser, race and tools, except that a vehicle's mechanics document may give its own tire and
+`wheelSlip`. The table documents that definition; it does not supply another set of defaults. The immutable record contains only authored numbers and choices,
+stored as versioned JSON. Derived radians, actuator rates and tire coefficients belong to admission.
+[Vehicle mechanics documents](../content/vehicles/) contain the per-vehicle mechanical data.
+
+DEV tunes the author-facing values below in their saved units; each grid wraps at its ends. A grid only places
+steps and never rejects a driving definition.
+
+| Group      | Key   | Definition field                            | Meaning                                      | Default | DEV range / step       |
+| ---------- | ----- | ------------------------------------------- | -------------------------------------------- | ------- | ---------------------- |
+| Steering   | M     | `maxRoadWheelSteerDegrees`                  | Mechanical road-wheel rack bound             | 65°     | 50–80° / 5°            |
+| Steering   | ACT   | `steeringTraversalSeconds`                  | Symmetric normalized steering traversal time | 0.30 s  | 0.20–0.40 s / 0.025 s  |
+| Pedals     | THR+  | `throttle.applySeconds`                     | Throttle apply time                          | 0.25 s  | 0.05–0.50 s / 0.025 s  |
+| Pedals     | THR-  | `throttle.releaseSeconds`                   | Throttle release time                        | 0.125 s | 0.025–0.50 s / 0.025 s |
+| Pedals     | BRK+  | `brake.applySeconds`                        | Brake apply time                             | 0.15 s  | 0.05–0.50 s / 0.025 s  |
+| Pedals     | BRK-  | `brake.releaseSeconds`                      | Brake release time                           | 0.10 s  | 0.025–0.50 s / 0.025 s |
+| Tires¹     | G     | `tire.grip`                                 | Tire grip, the force bound over the load     | 2.5     | 0.5–4 / 0.05           |
+| Tires¹     | C     | `tire.stiffness`                            | Force over the load at unit slip             | 40      | 10–150 / 1             |
+| Tires¹     | SR    | `tire.slidingRatio`                         | Force far past the peak, × the peak force    | 1       | 0.50–1.00 / 0.01       |
+| Tires      | LS    | `tireLoadSensitivity`                       | Tire force's sublinearity in load (r)        | 0.15    | 0.00–0.50 / 0.01       |
+| Tires²     | BAL   | `gripBalance` (mechanics)                   | Front grip × (1 − BAL), rear × (1 + BAL)     | 0       | −0.10–+0.20 / 0.01     |
+| Powertrain | FMEP0 | `idleFrictionMeanEffectivePressureBar`      | Friction mean effective pressure at idle     | 1.0 bar | 0.5–3.0 bar / 0.1 bar  |
+| Powertrain | FMEP1 | `redlineFrictionMeanEffectivePressureBar`   | Friction mean effective pressure at redline  | 2.5 bar | 1.0–5.0 bar / 0.1 bar  |
+| Powertrain | J     | `engineInertiaKilogramSquareMetersPerLitre` | Engine inertia per litre (kg m²/L)           | 0.04    | 0.010–0.100 / 0.005    |
+| Powertrain | ETA   | `drivelineEfficiency`                       | Driveline efficiency                         | 0.90    | 0.70–1.00 / 0.01       |
+| Powertrain | CLU   | `clutchCapacityFactor`                      | Clutch capacity × maximum curve torque       | 1.5     | 1.1–3.0 / 0.1          |
+| Rivals     | ULVL  | `roles.rival.utilization`                   | Rival utilization level with the player      | 0.85    | 0.30–1.00 / 0.01       |
+| Rivals     | UMIN  | `roles.rival.leastUtilization`              | Rival utilization at the span ahead          | 0.70    | 0.30–1.00 / 0.01       |
+| Rivals     | UMAX  | `roles.rival.mostUtilization`               | Rival utilization at the span behind         | 0.98    | 0.30–1.00 / 0.01       |
+| Rivals     | SPAN  | `roles.rival.spanMeters`                    | Lead at which a rival's target is a bound    | 200 m   | 20–1000 m / 10 m       |
+| Rivals     | RESP  | `roles.rival.responseSeconds`               | Rival utilization response time constant     | 6.0 s   | 0.5–30.0 s / 0.5 s     |
+| Contact    | BCF   | `bodyContact.frequencyHertz`                | Body contact natural frequency (Hz)          | 3.0 Hz  | 1.0–6.0 Hz / 0.5 Hz    |
+| Contact    | BCZ   | `bodyContact.dampingRatio`                  | Body contact damping ratio                   | 1.0     | 0.2–1.5 / 0.1          |
+| Contact    | BWF   | `bodyContact.barrierFriction`               | Wall friction, as a fraction of the push     | 0.30    | 0.00–1.00 / 0.05       |
+| Assists¹   | —     | `wheelSlip.drive`                           | TCS and MSR with the player's input          | on      | on / off               |
+| Assists¹   | —     | `wheelSlip.brake`                           | ABS with the player's input                  | on      | on / off               |
+
+¹ `wheelSlip` is the protection the player's input drives with, each side its own switch; planned drivers always drive
+with both sides on ([Vehicle physics](vehicle-physics.md#actuators-and-steering)). The driving definition's tire and `wheelSlip` are the
+game-wide defaults: they serve every vehicle whose
+[mechanics document](vehicle-physics.md#material-vehicle-and-driving-documents) does not give its own `tire` (all three
+values) or `wheelSlip` (both sides); a vehicle that gives one uses its own. They are not difficulty or player choices. A vehicle on
+the defaults follows the game-wide tuning, its identity changing with the driving definition's. The load sensitivity
+LS is the game's, not a tire's (K, 2026-11-16): every vehicle reads the driving definition's, and no mechanics document
+gives one.
+
+² BAL is the player vehicle's grip balance in its mechanics document, whatever owns its tire; DEV writes it there.
+Every vehicle's is 0 until K sets it in DEV; a rear grip below the front's (BAL below 0) is for a vehicle built to
+slide its rear (K, 2026-11-16).
+
+`fuelCutEnterRedlineRatio` (1.05), `fuelCutClearRedlineRatio` (1.03) and `clutchLockIdleMargin` (0.02) set the
+latches' thresholds and keep them from chattering; they are edited only in the file.
+`steeringReference` (`center`; `front` or `center`) and `steeringUtilization` (0.95, in `(0, 1]`) are the default
+steering rule, a driver's rule rather than a vehicle value ([Vehicle physics](vehicle-physics.md#actuators-and-steering));
+DEV does not tune them, so they too are edited only in the file.
+
+C is a force over the load per unit of the dimensionless slip (across the wheel, per radian of small slip angle). The
+peak slip `3*G/C` is not a value of its own: the defaults put it at 0.1875 on unit grip under the
+[tire law](vehicle-physics.md#tire-law). Full steering input sets the front tire's pure-lateral slip at which its lateral force reaches the fraction X of its
+bound at its static load on the material under the front wheel (at X = 100%, the peak), and never more than X of the
+bound at its load now (K, 2026-11-16), measured from the front wheel's travel
+direction turned back by the steering rule's lever times the yaw rate's departure from the steady turn asked for. The
+travel direction has the rest of the rack, `M` minus that slip angle ([Vehicle physics](vehicle-physics.md#actuators-and-steering)); neither angle is an
+authored value. The [DEV tuning registry](../src/shell/driving-tuning.ts) owns only these choices and
+step positions. From any finite value, + moves to the smallest grid value above it and − to the largest below
+it, wrapping from the last grid value to the first and back, also from outside the range; values off the grid are
+shown exactly. A DEV adjustment steps the
+player's tuned driving definition, or, for TIRES and the wheel slip switches of a vehicle whose mechanics document gives
+its own tire or `wheelSlip`, the player's tuned mechanics document, as its model uses them; it admits the stepped
+document with that document's compiler (a rejected candidate leaves both documents unchanged) and rebuilds the run
+around a run vehicle of the tuned documents ([Browser](browser.md#dev-controls)).
+
+Tuned values reach the product only through the definition files. DEV EXPORT downloads the tuned
+driving source document as `default.json` and the selected vehicle's tuned mechanics source document as
+`<vehicle id>.json`, written from the admitted documents, never from runtime values. Both use the
+saved layout of [`formatSavedJson`](../src/content/saved-json.ts), which Prettier leaves unchanged: admission's field
+order, two-space indentation, 120 columns, a below-root value on one line when it fits unless it is an object holding
+more than primitives or an array Prettier always breaks, otherwise one entry per line with an array of numbers filling
+each line, and JSON's own number and string spelling. The files in
+`content/driving/` and `content/vehicles/` are kept in that layout, so an untuned export is
+byte-identical to its content file. To adopt tuned values, replace `content/driving/default.json`
+(or a vehicle file) with the export and rebuild; admission, identity and generated references follow
+the new file. Tires are dimensionless
+coefficients per unit normal load; one set serves both stations of a vehicle, the vehicle's own or the game-wide
+default. Driving assists are not difficulty controls.
+
+The same definition selects the default `wheelSlip`, both sides on: `drive` (TCS and MSR) and `brake` (ABS), which a
+vehicle's own `wheelSlip` replaces whole. TCS, MSR (engine-braking slip) and the nose-up side of pitch protection act only through the
+engine's effective opening; ABS and the nose-down side of pitch protection act on the pedal brake. The
+driver's throttle actuator keeps its traversal time as the requested opening, and the opening's
+bounds take effect within each mechanics substep. Drive is split by the fixed front drive fraction,
+so a bound from either axle changes drive to both.
+Throttle traversal is 0.25 s apply / 0.125 s release; brake traversal is 0.15 s apply / 0.10 s release.
+Rates are their reciprocals. The fuel-cut ratios are dimensionless: fuel cuts above 1.05 times redline
+and returns at 1.03 times redline. Engine friction uses provisional game-wide friction mean effective
+pressures of 1.0 bar at idle (`idleFrictionMeanEffectivePressureBar`) and 2.5 bar at redline
+(`redlineFrictionMeanEffectivePressureBar`), linear in RPM between them and held outside that range;
+a 4-stroke engine's friction torque is `FMEP * displacement / (4*pi)` and a 2-stroke engine's is
+`FMEP * displacement / (2*pi)`. `drivelineEfficiency=0.9` applies to every vehicle and to positive
+and negative engine torque alike. `engineInertiaKilogramSquareMetersPerLitre=0.04` gives each engine
+a rotor inertia of 0.04 kg m² per litre of displacement. A slipping clutch locks when the
+wheel-derived RPM reaches engine speed and at least `clutchLockIdleMargin=0.02` above idle, and a
+locked clutch slips below idle; the curve's peak-torque RPM limits a slipping engine.
+`clutchCapacityFactor=1.5` sets the slipping clutch's fixed capacity to 1.5 times the curve's
+maximum torque; it must exceed 1 so an ordinary launch transmits the full engine torque. None of these
+is a vehicle value. `pitchLimitDegrees=15` is the game-wide pitch protection limit, nose up and nose
+down, for both forms, against the road line under the wheels
+([Vehicle physics](vehicle-physics.md#torque-protection)); it is edited only in the file. Torque
+protection is the same for both forms.
+The tire and steering low-speed regularizations and the pitch barrier's frequency are engine values the author chose
+([Vehicle physics](vehicle-physics.md)); DEV does not tune them.
+`bodyContact` is the spring-damper of every body contact: between two vehicles whose footprints overlap
+([Vehicle physics](vehicle-physics.md#body-contact)), and against walls, course limits and roadside objects: `frequencyHertz` is the natural frequency of the pair's
+relative motion in hertz, independent of the masses because the force scales with the pair's reduced mass, and
+`dampingRatio` is dimensionless (1 is critical damping: no rebound). Every DEV grid point is stable at the 1/60 s step.
+`barrierFriction` is the dimensionless ratio of the friction along a wall or course limit to its push (0.3 is a
+provisional value, to be judged on devices).
+
+The full driving source document participates in vehicle identity for reference times and time budgets.
+
+A driver's utilization is the fraction of its tires' friction ellipses it plans to use, with no other factor: it scales
+the lateral and longitudinal semi-axes of every axle alike, and the brake torques, so it acts on cornering, braking and
+acceleration alike; at 1 the plan corners at the limit itself (K, 2026-11-12). It plans speed alone: every planned driver steers by one rule, CENTER at 100 %
+([Drivers](content-and-gameplay.md#drivers)). A vehicle's speed cap
+is its steady speed on a level straight of unit grip without rolling resistance, at full utilization.
+
+The roles' utilizations are the driving definition's `roles` ([Driver roles](content-and-gameplay.md#driver-roles)):
+a rival's follows the player within the five DEV values above, the standard driver's is 0.90 (`roles.standard`) and
+traffic's 0.75 (`roles.traffic`).
+
+| Setting            | Value | Meaning                                                                                             |
+| ------------------ | ----- | --------------------------------------------------------------------------------------------------- |
+| Following time     | 1.5 s | Drivers' following time (`PLANNED_DRIVER.followSeconds`)                                            |
+| Terminal clearance | 2 m   | Left before a terminal, or behind the vehicle ahead, at a stop (`PLANNED_DRIVER.terminalClearance`) |
+
+Drivers' rules read the following time and the terminal clearance
+([Content and gameplay](content-and-gameplay.md#drivers)).
+
+`PLANNED_DRIVER.version` identifies the driver policy: the record's values and the driving law that reads them —
+planning, following, lane choice and merging, pedals and steering. It rises by one with every change that alters a
+driver's input for the same vehicle state and observations, whether the change is to a value or to that law, and with
+every field added to or removed from the record; a change that leaves every input the same keeps it. The reference
+driver's record, part of the reference run's procedure record, contains it. It is 7: the plan corners at the driver's
+utilization of the limit itself, with no margin and no capacity correction, a driver whose vehicle has stood 2 s
+(`standingSeconds`, K's, 2026-11-13) or has not passed its farthest point for 10 s (`progressSeconds`, K's,
+2026-11-15) asks for the player's manual recovery, and a driver plans once in three of its steps, driving its held plan
+between.
+
+The planned driver's other values ([`PLANNED_DRIVER`](../src/race/planned-driver.ts) and the path offset rules'
+[`PATH_OFFSET`](../src/race/lane-following.ts)) are author values: chosen by the implementer, neither derived from a
+model nor DEV settings; each one's meaning is written beside it. Among them are the path-following error's natural
+frequency, 1.2 rad/s, and damping ratio, 0.8; the pedals' speed-closing time, 0.5 s, and the stopping response time,
+0.45 s; an offset change's least blend distance, 30 m, and the offset's resolution, 0.25 m; and the step the plan
+reads utilization in, 0.01; the steps from one plan to the next, 6 (provisional, K 2026-11-12). Changing
+any of them changes drivers' inputs, so `PLANNED_DRIVER.version` rises with it.
+
+## Camera settings
+
+The [camera definition](../src/view/camera-definition.ts) holds the camera's values; DEV camera controls replace
+the camera height, the horizon row and the height frequency for the session without saving, and a reload restores them.
+The focal length (240 px), the critically damped height spring and the yaw limit (45° about the road heading at the car, taken at once) are fixed; what the yaw follows is the
+player's setting ([Architecture](architecture.md#camera-and-fixed-metric)). The camera height is measured above the
+player's base point with a level body; the player's base point stands `f*h/D_cam` rows below the horizon (80 at 2 m,
+60 at 1.5 m, 40 at 1 m) and its size does not change. The horizon row moves the whole view up or down the screen, the
+background with it; [Image assets](image-assets.md#infinite-tiled-background) owns how the background maps to the
+screen.
+
+| Setting          | Value | DEV choices                   | Meaning                                           |
+| ---------------- | ----- | ----------------------------- | ------------------------------------------------- |
+| Camera height    | 2 m   | 1, 1.5, 2 m                   | Height above the player's base point, level body  |
+| Horizon row      | 120   | 60, 70, 80, 90, 100, 110, 120 | The horizon's screen row with a level body        |
+| Height frequency | 2 Hz  | 0.5, 1, 2, 3, 5, 10 Hz        | Natural frequency of the sprung base point height |
+
+## Vehicle values
+
+The [vehicle mechanics documents](../content/vehicles/) and [vehicle listings](../content/vehicle-listings/) are the
+sole authority for per-vehicle values. A mechanics document may give the vehicle its own tire and `wheelSlip` in place
+of the game-wide defaults ([Vehicle settings](#vehicle-settings)). The DRIFT TUNED vehicles (S13_DRIFT_TUNED and
+AE86_DRIFT_TUNED) give both: `wheelSlip` with its drive side (TCS and MSR) off and ABS on, and a drift tire: S13 G=0.8
+and C=24 and AE86 G=0.7 and C=21, both with SR=0.85 (so both reach their peak at the slip 0.1 on unit grip); a DRIFT
+TUNED vehicle's tires and engine need not be the real car's. Their masses add the 75 kg occupant to the notified weight,
+which includes fuel; AE86's torque curve takes its gross rating as C and D. Production gameplay tuning edits those
+documents directly. [Vehicle physics](vehicle-physics.md) owns document admission and structural/domain validation.
+
+Mass (kg) and CG height (m) describe one running rigid body including a 75 kg occupant and fuel.
+The provisional bike CG height is wheelbase × 0.3 for gameplay, including occupant and fuel in that
+same rigid body. Car CG heights are provisional estimates. These values are gameplay parameters,
+not claims of measured physical specifications.
+Overall length, width and height are the real vehicle's body dimensions (mirrors excluded), not tuning values; the
+width is also the side of the vehicle's square footprint ([Vehicle physics](vehicle-physics.md)).
+The front and rear tracks are published figures; no primary source was found, so each value is one that two or more
+sources agree on. A two-wheeler's tracks are 0, its wheels in one line. Physics does not read them:
+
+| Vehicle            | Front track | Rear track | Sources                                                                                                                                   |
+| ------------------ | ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| TESTAROSSA         | 1.518 m     | 1.660 m    | ultimatespecs (Europe 1986–89, 151.8 / 166.0 cm); conceptcarz 1989 (59.8 / 65.4 in)                                                       |
+| 911_TURBO_3_3_1986 | 1.432 m     | 1.501 m    | auto-data (930 3.3 Turbo 300 PS); the wider rear with the 9J wheels from 1986                                                             |
+| CORVETTE_C4        | 1.514 m     | 1.534 m    | 59.6 / 60.4 in: corvetteactioncenter 1989 specifications; vetteregistry 1989                                                              |
+| DELTA_HF_INTEGRALE | 1.426 m     | 1.406 m    | carsales (1988 HF Integrale); sportscarlegends (8V). auto-data gives the rear as 1426 and encycarpedia 55.5 / 55.3 in, which do not agree |
+| GOLF_GTI_16V       | 1.427 m     | 1.422 m    | auto-data (GTI 16V 1987–91); carsales 1988 GTI                                                                                            |
+| VFR750R            | 0           | 0          | Single track                                                                                                                              |
+| FXRT_SPORT_GLIDE   | 0           | 0          | Single track                                                                                                                              |
+| R80_GS_PARIS_DAKAR | 0           | 0          | Single track                                                                                                                              |
+| PX200E_ARCOBALENO  | 0           | 0          | Single track                                                                                                                              |
+| S13_DRIFT_TUNED    | 1.465 m     | 1.460 m    | DT-2's value table (Silvia K's, early, 5MT)                                                                                               |
+| AE86_DRIFT_TUNED   | 1.355 m     | 1.345 m    | DT-2's value table (Levin 3-door GT-APEX, early)                                                                                          |
+
+Each torque curve has five points of RPM and torque in N m, joined linearly: A at idle; B, the knee between A and
+C where the slope changes markedly; C, the maximum torque; D, the maximum power; and E at redline. C and D are the
+vehicle's rated figures where they are known (D's torque is rated power / ω); B and the curve's shape follow published
+descriptions of the engine; A and E are estimates, with E low enough that D stays the power peak
+([Vehicle physics](vehicle-physics.md#wheel-and-powertrain) admits the curve). Shifts read the vehicle's speed: upshift
+occurs when the driven wheels, rolling without slip at that speed, would turn the engine at redline; downshift occurs
+when the next lower ratio would place the engine at or below D's RPM at the same speed. Wheel spin moves no shift: the
+engine follows the spinning wheels to the fuel cut. Shift RPM thresholds are not vehicle values.
+Displacement is in cc and cycle is 2 or 4 strokes. Gear ratios and final drive are dimensionless. The compression
+ratio is the geometric ratio from references; physics does not read it, and the engine sound's cylinders do
+([Audio](audio.md#derived-values)):
+
+| Vehicle            | Compression ratio |
+| ------------------ | ----------------- |
+| TESTAROSSA         | 9.2               |
+| 911_TURBO_3_3_1986 | 7.0               |
+| CORVETTE_C4        | 9.5               |
+| DELTA_HF_INTEGRALE | 8.0               |
+| GOLF_GTI_16V       | 10.0              |
+| VFR750R            | 11.0              |
+| FXRT_SPORT_GLIDE   | 8.5               |
+| R80_GS_PARIS_DAKAR | 8.2               |
+| PX200E_ARCOBALENO  | 9.8               |
+| S13_DRIFT_TUNED    | 8.5               |
+| AE86_DRIFT_TUNED   | 9.4               |
+
+## Exhaust topologies
+
+[Engine-sound documents](../content/engine-sounds/) write each exhaust from the valves to the tailpipes, every tube by
+its length and internal diameter; each document's `metadata.note` names its references. Values from references are the
+valve sizes, lifts and timings (FIA homologation forms, part data, shop manuals as quoted), pipe outer diameters
+(replacement parts, homologation forms), the manifolds' forms and the compression ratios; the others (most pipe lengths,
+turbine throats and some valve dimensions) are estimates, chosen physically plausible.
+
+The vehicles rewritten under K's rules of 2026-11-22 (TESTAROSSA, NSR500_1984, XR600R_1985, RX_7_TURBO_II_1987,
+PORSCHE_959_1987, PORSCHE_928_S4_1987, FERRARI_F40_1988, TURBO_ESPRIT_1984, COUNTACH_5000_QV_1985, 911_TURBO_3_3_1986
+and FERRARI_GTO_1984) follow them:
+
+- The real car's: the valve's `diameter` and `open`, how the cylinders and the sides join, and every tube's length,
+  primaries, pipes and tails alike, from parts diagrams and photographs where no source gives it, in steps of 0.02 m.
+- Every tube's diameter, the primaries' included, is the real inner diameter times 1.14, one size wider; a diameter
+  that changes along a pipe is not followed closely. Not widened: turbines, expansion chambers and two-strokes.
+- An expansion chamber, a silencer's or a catalyst's body, is a wide pipe whose size and place K sets by ear and which
+  may differ from the car's: chambers in series are 0.08 m apart; the one nearest the engine is the larger and carries
+  the path's one `wool`, 0.02 m in every vehicle ([Audio](audio.md#derived-values)); a turbocharged engine, whose
+  turbine stands where the first chamber would, may have one chamber, which carries the wool. One size larger or smaller
+  is the diameter times or over 1.14.
+- A turbine is two pipes, one pair for each turbocharger, the same in every vehicle: its throat, 0.08 m long, of the
+  real throat's area (a twin scroll's two passages together), and right after it a room 0.12 m long and 150 mm wide,
+  where the throat's stream loses its head as it does to the wheel. Neither is widened nor takes wool, the room is not
+  counted in the chambers' volume, and the wastegates and the pipes between the sides are not written.
+- A two-stroke is written as the machine is: its chambers are not expansion chambers in this sense, and are neither
+  widened, moved nor resized; the silencer after each carries the wool.
+- Pipes of one length and diameter that leave one joint and run on alike to their own open ends are one of their
+  combined area (the diameter times sqrt 2); a branch whose length differs from its partner's is not merged.
+- A chamber's length and place are not in a simple whole-number ratio with a tube on the same path: two lengths `A`
+  and `B` in cm, `A/B = p/q` in lowest terms, clash when `max(p, q) <= 4` and `p * 24000 / A <= 3200`, and a clash moves
+  the chamber by 0.02 m. The real lengths, the turbine's 0.08 and 0.12 m and the 0.08 m between chambers stay as they
+  are. These two length rules are written rules; no check reads them.
+- The expansion chambers' sizes and places, the 1.14 and the 20 mm of wool were set by ear (K, 2026-11-22); the
+  compressor stays 2:1, and no vehicle has an exception.
+
+The other vehicles keep the earlier rules: silencer and catalyst bodies are straight pipes of their inlet diameter,
+collector-box bodies straight pipes of their inlet diameter, and a turbine its throat alone. For every vehicle a run of
+equal pipes is one pipe, a cylinder's equal ports and pipes side by side are one of their combined area, and
+turbochargers' wastegates are not represented. DEV's ENGINE SOUNDS panel changes the lengths and diameters
+([Browser](browser.md#sound-controls)).
+
+| Vehicle               | Exhaust                                                                                                                                                                               | Primaries (m × mm)   | Pipes (m × mm)                                                                                                                    | Valve (mm, cycle) | From references                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| TESTAROSSA            | 1984 European without catalyst: four 3-into-1 manifolds; per side a chamber with wool and a chamber, sides apart, a tail per side                                                     | 12 × 0.20 × 40       | legs 0.86 and 0.74 × 54; chambers 2 × 0.56 × 186 and 2 × 0.48 × 190, 2 × 0.08 × 74 apart; tails 2 × 0.52 × 84                     | 39.6, 0.389       | valve timing; lengths: parts diagram 019 (estimates)                                                         |
+| COUNTACH_5000_QV_1985 | 1985 European carburetted: per bank two 3-into-1 manifolds; per side a chamber with wool and a chamber, sides apart, tails as one                                                     | 12 × 0.32–0.46 × 43  | 2 × 0.78 and 2 × 0.50 × 57; chambers 2 × 0.44 × 180 and 2 × 0.38 × 171, 2 × 0.08 × 81 apart; tails 2 × 0.20 × 97                  | 45.0, 0.360       | valve size, lift and duration (Web Cam); layout: diagram 028; lengths: photograph (estimates)                |
+| CORVETTE_C4           | cast log manifolds (rear outlets), Y-pipe with light-off converters, converter, rear Y, two mufflers                                                                                  | 8 × 0.09 × 38        | logs 6 × 0.112 × 49; Y legs 0.78 and 0.58 × 54; 0.38 × 54; converter 0.30 × 60; 2 × 1.10 × 54; 4 × 0.18 × 51                      | 38.1, 0.414       | Y-pipe and rear section sizes, valve diameter and lift                                                       |
+| DELTA_HF_INTEGRALE    | 185 PS without catalyst: cast 4-into-1 manifold, the Garrett T3's throat, centre and rear silencers                                                                                   | 4 × 0.19–0.31 × 36   | throat 0.08 × 26; 1.85 × 51; 1.35 × 47; tailpipe 0.15 × 50                                                                        | 36.5, 0.331       | valve diameter, turbine housing                                                                              |
+| GOLF_GTI_16V          | KR without catalyst: two cast elements (1+4, 2+3), twin downpipe, three silencers, two tailpipes                                                                                      | 4 × 0.22–0.34 × 33   | downpipes 0.42 and 0.38 × 33; 3.15 × 50; 2 × 0.12 × 42                                                                            | 39.6, 0.399       | element outlets, valve sizes, lift and timing                                                                |
+| VFR750R               | rear and front pairs join, one collector, the single silencer                                                                                                                         | 4 × 0.48–0.70 × 32   | pairs 0.10 and 0.20 × 40; collector 0.60 × 48; outlet 0.05 × 40                                                                   | 32.5, 0.396       | valve timing                                                                                                 |
+| FXRT_SPORT_GLIDE      | front and rear head pipes, a crossover, two stacked mufflers with their own outlets                                                                                                   | 2 × 0.415–0.865 × 41 | crossover 0.10 × 35; 2 × 0.70 × 41; 2 × 0.10 × 35                                                                                 | 40.9, 0.386       | head pipe size, valve diameter and lift                                                                      |
+| R80_GS_PARIS_DAKAR    | headers through the collector box, a link pipe, the single high silencer                                                                                                              | 2 × 0.90–0.92 × 34   | box 0.20 × 34; link 1.00 × 36; outlet 0.10 × 30                                                                                   | 37.8, 0.428       | header size, valve diameter, cam duration and lift                                                           |
+| PX200E_ARCOBALENO     | port through the cylinder duct, downpipe and box to the small tailpipe                                                                                                                | 1 × 0.765 × 33       | tailpipe 0.12 × 18                                                                                                                | 29.0, 0.450       | port open duration                                                                                           |
+| S13_DRIFT_TUNED       | borrowed: DELTA_HF_INTEGRALE's engine sound, until its own exhaust is made with its GLB pictures                                                                                      | —                    | —                                                                                                                                 | —                 | —                                                                                                            |
+| AE86_DRIFT_TUNED      | borrowed: GOLF_GTI_16V's engine sound, until its own exhaust is made with its GLB pictures                                                                                            | —                    | —                                                                                                                                 | —                 | —                                                                                                            |
+| MCLAREN_M23_PP_SPEC   | borrowed: LOTUS_79_SPECIAL's engine sound, the same Cosworth DFV, until it has its own                                                                                                | —                    | —                                                                                                                                 | —                 | —                                                                                                            |
+| NSR500_1984           | 1984 NV0A: four separate paths, each a header, a chamber, a stinger, a silencer with wool and an outlet; firing every 90°                                                             | 4 × 0.22 × 38        | chambers 4 × 0.46 × 86; stingers 2 × 0.20 and 2 × 0.24 × 22; silencers 4 × 0.28 × 62; outlets 4 × 0.02 × 22                       | 28.0, 0.556       | layout, bore and stroke (Honda); lengths: photographs (estimates)                                            |
+| XR600R_1985           | two head pipes as one, the joined pipe, two chambers (K's, the motorcycle has none) 0.08 m apart, the tail                                                                            | 1 × 0.32 × 42        | 0.22 × 46; chambers 0.38 × 132 with wool and 0.18 × 110, 0.08 × 46 apart; tail 0.12 × 46                                          | 43.8, 0.368       | valve diameter and timing; lengths: 1985 parts diagram (estimates)                                           |
+| TURBO_ESPRIT_1984     | 1984 UK, no catalyst: 4 into 2 (1-4, 2-3) to the T3, one pipe, one chamber with wool at the rear silencer, two tails as one                                                           | 4 × 0.16–0.44 × 43   | 2 × 0.34 × 48; turbine 0.08 × 30 and 0.12 × 150; 0.84 × 58; chamber 0.80 × 150; tail 0.30 × 73                                    | 43.7, 0.350       | valve heads and cam, manifold pairing, pipe bore (a US car); lengths: parts diagram, photographs (estimates) |
+| RX_7_TURBO_II_1987    | 1987 US: each rotor's runner to the twin-scroll turbine, one pipe, the Y's two legs as one, one chamber at the rear silencers' place                                                  | 2 × 0.14–0.32 × 55   | turbine 0.08 × 44 and 0.12 × 150; 1.22 × 62; 0.30 × 68; 0.90 × 78; chamber 0.46 × 270; tail 0.18 × 78                             | 33.0, 0.950       | port timing, turbine passages, converter and Y sizes                                                         |
+| PORSCHE_959_1987      | 1987 European, no catalyst: per bank three branches into a log, a K26 at its end, one chamber with wool, two tails as one                                                             | 6 × 0.10 × 43        | logs 2 × 3 × 0.12 × 55; turbines 2 × (0.08 × 27.6, 0.12 × 150); 0.26 and 0.36 × 64; chamber 0.70 × 209; tail 0.26 × 90            | 46.7, 0.360       | layout, turbine size; lengths: parts diagrams (estimates)                                                    |
+| 911_TURBO_3_3_1986    | 1986 European (930/66), no catalyst: per bank a heat exchanger's body taking three branches in turn, the right crossing to the left, the K27, one chamber with wool, two tails as one | 6 × 0.10 × 43        | bodies 2 × 3 × 0.12 × 57; 0.60 and 1.18 × 57; turbine 0.08 × 36 and 0.12 × 150; 0.52 × 68; chamber 0.42 × 265; tail 0.30 × 89     | 40.7, 0.389       | valve diameter; layout and lengths: diagrams 202-05, -10, -15 (estimates)                                    |
+| PORSCHE_928_S4_1987   | 1987 US: per bank 4-into-1, downpipe, two chambers; the banks meet in the rear chamber; two tails as one                                                                              | 8 × 0.16–0.20 × 48   | downpipes 0.20 and 0.50 × 59; per bank chambers 0.52 × 165 and 0.42 × 135, 0.08 apart, 1.40 × 59; rear 0.54 × 168; tail 0.30 × 89 | 46.7, 0.333       | valve size and duration, pipe diameters; lengths: parts diagrams (estimates)                                 |
+| FERRARI_GTO_1984      | 1984 European, no catalyst: per bank a tube manifold 4-2-1 to its IHI turbine, one chamber with wool (the silencer's two halves as one), four tails as one                            | 8 × 0.16–0.42 × 40   | 4 × 0.22 × 48; turbines 2 × (0.08 × 27.6, 0.12 × 150); 2 × 0.28 × 63; chamber 0.38 × 253; tail 0.34 × 103                         | 36.8, 0.389       | layout: diagram 012, photographs; valve and throat: the F40's; lengths: estimates                            |
+| FERRARI_F40_1988      | 1988 European without catalyst: per bank four primaries into a riser and a turbine, one chamber (the silencer's two halves as one), two tails as one                                  | 8 × 0.36–0.70 × 40   | risers 2 × 0.14 × 51; turbines 2 × (0.08 × 27.6, 0.12 × 150); 0.22 and 0.32 × 62; chamber 0.26 × 311; tail 0.48 × 102             | 36.8, 0.389       | valve diameter and timing; lengths: parts diagrams, photograph (estimates)                                   |
+
+## Engine sound settings
+
+The engine sound has no DEV settings (K, 2026-11-21). Its values are [derived](#derived-values), physical assumptions
+(`GAS`, [Audio](audio.md#derived-values)) or the owner's, chosen by listening and kept by the code:
+
+| Value                                | Meaning                                                       | Value  | Owner                       |
+| ------------------------------------ | ------------------------------------------------------------- | ------ | --------------------------- |
+| `EXHAUST_LISTENING.chargeVariation`  | Each firing's charge varies by up to this share of a full one | 0.03   | K, 2026-11-20               |
+| `EXHAUST_LISTENING.afterfireSeconds` | An afterfire's charge burns over this                         | 1.5 ms | K, 2026-11-20               |
+| `LISTENED.chargeVariation`           | The light kernel's: each charge varies by up to this share    | 0.03   | K, 2026-11-20 and 11-23     |
+| `LISTENED.afterfireSeconds`          | The light kernel's: an afterfire burns at its valve over this | 1.5 ms | K, 2026-11-20 and 11-23     |
+| `ENGINE_CHAIN.levelSeconds`          | The compressor follows the sound's mean square over this      | 50 ms  | K, 2026-11-21               |
+| `ENGINE_CHAIN.ratio`                 | The compressor's ratio, threshold at the bottom               | 2:1    | K, 2026-11-21               |
+| `ENGINE_CHAIN.ceiling`               | The soft clip's ceiling over the level the gain brings        | 2      | K, 2026-11-21               |
+| `DOWNSHIFT_BLIP.opening`             | A locked downshift's blip opening peak                        | 1      | K (EX-10)                   |
+| `DOWNSHIFT_BLIP.decaySeconds`        | Its exponential decay time                                    | 0.25 s | K (EX-10)                   |
+| `AFTERFIRE.openingBelow`             | An afterfire needs the effective opening below this           | 0.02   | provisional (K, 2026-11-21) |
+| `AFTERFIRE.idleRatio`                | and engine RPM above this times idle, fuel not cut            | 1.3    | provisional (K, 2026-11-21) |
+| `AFTERFIRE.perSecond`                | Afterfires a second on average while so                       | 1      | provisional (K, 2026-11-21) |
+
+The kernel and rate the engines play at are the player's ENGINE SOUND QUALITY's, MID by default (K, 2026-11-21;
+[Audio](audio.md#engine-synthesis)).
+
+## UNIFIED tire settings
+
+[UNIFIED acoustics](../src/audio/tire-unified-acoustics.ts) supplies these friction-model listening settings, for the
+mapping in [Tire audio](tire-audio.md#work-and-slip-mapping). `noiseForcePerSecond` and `outputGainPerSecond` are the
+values of the mapping K chose by listening (TN-1): they match the version 7 sound's level in an ordinary corner (rear
+tire, 1.25 m/s, 15 kW, 10 kN) and its share of squeal in a large slide (12 m/s, 150 kW, 10 kN: about 76 % of the
+20–8000 Hz energy within 700–1400 Hz).
+
+| Key                         | Meaning                                                   | Default               | Range / step        |
+| --------------------------- | --------------------------------------------------------- | --------------------- | ------------------- |
+| `feedbackMaximumPerSecond`  | Maximum positive friction feedback                        | 8500 s⁻¹              | 2000–12000 / 100    |
+| `noiseForcePerSecond`       | Colored force of the roughest input at 1 m/s power/load   | 7450 s⁻¹              | 0–15000 / 50        |
+| `lowFrequencyHz`            | Low passive-mode frequency                                | 300 Hz                | 275–600 Hz / 5 Hz   |
+| `highFrequencyHz`           | High passive-mode frequency                               | 1000 Hz               | 800–2400 Hz / 25 Hz |
+| `outputGainPerSecond`       | Displacement-pickup gain per √(load / 1 kN)               | 42.5 s⁻¹              | 0–85 / 0.5          |
+| `slipHalfMps`               | Feedback slip half-response                               | 3 m/s                 | 1–12 m/s / 0.25     |
+| `slipRolloffMps`            | High-slip feedback rolloff                                | 45 m/s                | 20–80 m/s / 1       |
+| `noiseBandwidthHz`          | Colored-force bandwidth                                   | 600 Hz                | 100–2000 Hz / 25    |
+| `outputCutoffHz`            | Friction output-filter cutoff                             | 8000 Hz               | 1000–12000 Hz / 100 |
+| `resonanceDampingPerSecond` | Damping of both passive modes                             | `2*pi*500` ≈ 3142 s⁻¹ | 500–12000 / 50      |
+| `lowParticipation`          | Low-mode participation; the high mode uses `sqrt(1-low²)` | 0.45                  | 0.05–0.95 / 0.01    |
+| `dcHz`                      | Friction output DC removal                                | 18 Hz                 | 5–60 Hz / 1         |
+
+Resolution also requires `resonanceDampingPerSecond/2 < 2*pi*lowFrequencyHz`, so both modes stay underdamped;
+the DEV slider keeps its previous value when a change would break it. Control following uses the TIMING
+`observationSeconds`.
+
+## IMPACT settings
+
+[Impact acoustics](../src/audio/impact-acoustics.ts) supplies each counterpart's impact reference work
+(`ImpactSettings`): an impact sounds at `W / (W + reference)`. Ranges are about a quarter to four times each default.
+The defaults are the implementer's, not chosen by listening: about a 10 m/s closing of two cars (about 45 kJ), a hard
+hit of a wall or object (wall starts measured on departures from a road ran from about 300 J to 1.6 MJ) and a cone at race
+speed (about 7 kJ).
+
+| Key             | Counterpart                       | Default  | Range / step            |
+| --------------- | --------------------------------- | -------- | ----------------------- |
+| `vehicleJoules` | Another vehicle                   | 50000 J  | 12500–200000 J / 500 J  |
+| `wallJoules`    | Wall, course limit, wall free end | 100000 J | 25000–400000 J / 1000 J |
+| `objectJoules`  | Fixed object                      | 100000 J | 25000–400000 J / 1000 J |
+| `movableJoules` | Movable object                    | 7000 J   | 1750–28000 J / 50 J     |
+
+## ROLLING tire settings
+
+[Rolling acoustics](../src/audio/tire-rolling-acoustics.ts) supplies the rolling-model listening settings
+(`RollingSettings`); ranges are about a quarter to four times each default. The orders are integers. The band
+width is kept inside the noise band's numerical domain.
+
+| Key                   | Meaning                               | Default | Range / step         |
+| --------------------- | ------------------------------------- | ------- | -------------------- |
+| `toneSeconds`         | Surface and wheel-frequency following | 0.02 s  | 0.005–0.08 / 0.001   |
+| `lowOrder`            | Wheel order of the low band           | 4       | 1–24 / 1             |
+| `highOrder`           | Wheel order of the high band          | 12      | 1–24 / 1             |
+| `minimumHz`           | Lowest band centre                    | 35 Hz   | 9–140 Hz / 1         |
+| `bandwidthRatio`      | Band width / centre                   | 0.8     | 0.2–3.2 / 0.05       |
+| `loadHalfNewtons`     | Load half-response                    | 2000 N  | 500–8000 N / 50      |
+| `speedHalfMps`        | Speed half-response                   | 15 m/s  | 4–60 m/s / 0.5       |
+| `speedExponent`       | Speed-response exponent               | 1.5     | 0.4–6 / 0.1          |
+| `attackSeconds`       | Level rise                            | 0.015 s | 0.004–0.06 / 0.001   |
+| `releaseSeconds`      | Level fall                            | 0.01 s  | 0.0025–0.04 / 0.0005 |
+| `textureMinimumDepth` | Minimum texture modulation depth      | 0.22    | 0.05–0.88 / 0.01     |
+| `textureMaximumHz`    | Highest texture rate                  | 160 Hz  | 40–640 Hz / 5        |
+| `gain`                | Rolling output gain                   | 0.04    | 0.01–0.16 / 0.005    |
+| `outputHz`            | Rolling output low-pass cutoff        | 900 Hz  | 225–3600 Hz / 25     |
+| `dcHz`                | Rolling output DC removal             | 18 Hz   | 5–60 Hz / 1          |
+
+The [surface-sound document](../content/surface-sounds/default.json) holds these values, which DEV's SURFACES panel
+changes ([Browser](browser.md#sound-controls)). Friction roughness and susceptibility are the
+[friction input](tire-audio.md#work-and-slip-mapping)'s fractions in [0, 1].
+
+| Surface     | Rolling low | Rolling high | Texture length | Texture depth | Friction roughness | Friction susceptibility |
+| ----------- | ----------- | ------------ | -------------- | ------------- | ------------------ | ----------------------- |
+| ASPHALT     | 0.9         | 0.18         | 0.3 m          | 0.12          | 0.5                | 1                       |
+| WET_ASPHALT | 0.9         | 0.36         | 0.3 m          | 0.12          | 0.5                | 0.7                     |
+| SHOULDER    | 0.85        | 0.7          | 0.6 m          | 0.4           | 0.65               | 0.4                     |
+| GRASS       | 0.85        | 0.12         | 1.4 m          | 0.45          | 0.375              | 0.04                    |
+| DIRT        | 1           | 0.55         | 0.8 m          | 0.8           | 0.75               | 0.12                    |
+| SAND        | 0.3         | 0.8          | 0.12 m         | 0.2           | 0.55               | 0.02                    |
+| WATER       | 0.9         | 0.72         | 0.3 m          | 0.12          | 0.5                | 0.6                     |
+| SNOW        | 0.9         | 0.09         | 0.3 m          | 0.12          | 0.5                | 0.25                    |
+
+WET*ASPHALT's surface sound is ASPHALT's with two physical changes: a water film adds spray and drainage noise above
+about 1 kHz, by several decibels on wet surfaces (Sandberg and Ejsmont, \_Tyre/Road Noise Reference Book*, 2002), taken
+as 6 dB on the high band (0.18 × 2); and its friction susceptibility, the tendency of sliding to excite the tire,
+scales with the friction it lubricates away, by the wet-road friction ratio 0.7 ([Surface materials](#surface-materials)).
+The texture, a property of the asphalt under the water, is unchanged. The document keeps this derivation; a DEV change
+to either surface does not carry over to the other.
+
+WATER's surface sound is WET_ASPHALT's derivation carried from a film to a layer of standing water: the spray and
+drainage noise on the high band doubled again, 12 dB over ASPHALT's (0.18 × 4), and the friction susceptibility scaled
+by its grip factor, 0.6 ([Surface materials](#surface-materials)). The texture under the water is ASPHALT's. Both are
+starting points to set by ear with DEV's SURFACES panel.
+
+SNOW's surface sound is ASPHALT's under a thin layer of snow, which absorbs sound above about 1 kHz (fresh snow is
+porous): the high band halved, 6 dB under ASPHALT's (0.18 / 2), and the friction susceptibility scaled by its grip
+factor, 0.25, as WATER's is. The texture is the asphalt's under the snow. Both are starting points to set by ear.
+
+The only tire constants are structural: the random seeds (`UNIFIED_SYNTHESIS`), the rolling noise stream indices
+and the internal rolling control rate (`ROLLING_SYNTHESIS`), the noise band's numerical domain
+(`NOISE_BAND_DOMAIN`: bandwidths 50 to 6000 Hz and a centre up to 0.4 × the rate, author values under Nyquist, each
+bound included) and the
+synthesis's sample rates (`SYNTHESIS_RATE_DOMAIN`, 44100 to 192000 Hz, author values).
+
+## Tire puffs
+
+The [puff document](../content/puffs/default.json) holds the [tire puffs](tire-puffs.md)' values. None has a measured
+basis; they are the implementer's starting points for K to set with DEV's PUFFS group and adopt by its export. Per kind:
+
+| Kind  | `releaseDegrees` | `responseSeconds` | `riseMps` | `startDiameterMeters` | `growthMps` | `lifeSeconds` |
+| ----- | ---------------- | ----------------- | --------- | --------------------- | ----------- | ------------- |
+| smoke | 0                | 0.05              | 0.5       | 0.5                   | 1.5         | 1.5           |
+| spray | 20               | 0.1               | −1.0      | 0.5                   | 1.0         | 1.0           |
+| dust  | 30               | 0.15              | −0.3      | 0.6                   | 1.2         | 2.0           |
+
+Smoke particles are held by the air almost at once and rise slowly with their heat. Spray is drops of about 0.1–0.2 mm:
+their Stokes response time is about 0.03–0.12 s and their terminal speed about 0.3–0.7 m/s, the larger the faster; at
+30 m/s and φ = 20° a drop rises to about 0.8 m in 0.24 s and would reach the road at about 1.15 s, after its 1.0 s life.
+Dust is fine and settles slowly. Per surface:
+
+| Material    | Kind  | Palette | `metersPerPuff` | `joulesPerPuff` |
+| ----------- | ----- | ------- | --------------- | --------------- |
+| ASPHALT     | smoke | smoke   | null            | 10000           |
+| WET_ASPHALT | spray | spray   | 3               | 10000           |
+| SHOULDER    | dust  | verge   | 3               | 10000           |
+| GRASS       | dust  | grass   | null            | 10000           |
+| DIRT        | dust  | dirt    | 2               | 10000           |
+| SAND        | dust  | sand    | 2               | 10000           |
+| WATER       | spray | spray   | 1               | 10000           |
+| SNOW        | dust  | smoke   | 2               | 10000           |
+
+With the game-wide tire (G = 2.5, C = 40, a peak slip of 0.1875) and TESTAROSSA's static rear load of about 9.6 kN, the
+peak lies at a lateral slip speed of about 5.6 m/s at 30 m/s; a drift at a slip speed of 10 m/s gives a sliding power of
+about 105 kW, about 10 puffs a second, and a light slide at 7 m/s about 3 a second. Rolling at 30 m/s throws 10 a second
+per axle on a surface of 3 m per puff. WATER throws spray rolling every metre, three times as often as WET_ASPHALT: a
+tire rolling through standing water lifts it all the time, not only from a film. SNOW throws a white powder: of today's
+kinds and colors the nearest are dust (fine, settling slowly) in the smoke's white, every 2 m rolling as the loose dirt
+and sand throw theirs.
+
+## Surface materials
+
+The [material catalog](../content/materials/surface.json) holds each surface's grip factor (its scale on the tire
+law's friction) and rolling resistance coefficient.
+
+| Material    | Grip factor | Rolling resistance |
+| ----------- | ----------- | ------------------ |
+| ASPHALT     | 1           | 0.014              |
+| WET_ASPHALT | 0.7         | 0.014              |
+| SHOULDER    | 0.78        | 0.025              |
+| GRASS       | 0.43        | 0.065              |
+| DIRT        | 0.52        | 0.045              |
+| SAND        | 0.33        | 0.11               |
+| WATER       | 0.6         | 0.06               |
+| SNOW        | 0.25        | 0.025              |
+
+WET*ASPHALT is ASPHALT with a water film: its grip factor is the wet-road friction ratio, 0.7, from the typical peak
+adhesion of asphalt dry (0.8–0.9) and wet (0.5–0.7) (J. Y. Wong, \_Theory of Ground Vehicles*, 4th ed., 2008, Table 1.1),
+the ratio of the ranges' midpoints (0.6 / 0.85 ≈ 0.71) rounded. Its rolling resistance is ASPHALT's: the film's extra
+resistance at speed is not modelled.
+
+WATER is shallow standing water (ENDURO RACER's fords and its sea's edge) over an unknown bed; no deep water exists,
+and only course limits stop a vehicle. Its grip factor 0.6 lies between wet asphalt's low end (0.5) and a wet earth road (0.55)
+over dry asphalt's 0.85 (Wong, Table 1.1): 0.59–0.65, taken as 0.6. Its rolling resistance 0.06 stands for the drag of
+pushing water aside, `½ρv²·C·A`: a 0.2 m wide tire in 2 cm of water (A = 0.004 m², C ≈ 1) at 10 m/s meets about 200 N,
+0.057 of a 3.5 kN wheel load, rounded to 0.06. A drag growing with speed is not modelled, so the coefficient is too
+little at speed and too much when slow. Both are document values with no DEV control.
+
+SNOW is snow lying thin on a road (a few centimetres, a RALLY STAGE winter's "snow"); packed snow is a later material.
+No course uses it now (K, 2026-10-25).
+Its grip factor 0.25 is packed snow's peak adhesion, 0.2, over dry asphalt's 0.85 (Wong, Table 1.1), 0.24, taken a
+little higher, as the tire reaches the road through a thin layer. Its rolling resistance 0.025 is a passenger car tire's
+in 2 inches (5 cm) of snow (T. D. Gillespie, _Fundamentals of Vehicle Dynamics_, 1992, Table 4.1), the snow compacted
+under the tire. Both are document values with no DEV control.
+
+## MIX settings
+
+[Sound graph](../src/audio/sound-graph.ts) supplies the master compressor settings and the loudness the engines' gains
+bring their compressed sound to (`MixSettings`). `engineDriveLufs`'s default, −24 LUFS, is the owner's (EX-10); each
+vehicle's gain at its rendering brings its [measured](audio.md#engine-loudness) compressed sound there, before the soft
+clip of ceiling 2. An engine's sound exceeds 1, up to 2; the mix after it is K's to decide separately (2026-11-21).
+
+| Key               | Meaning                     | Default  | Range / step      |
+| ----------------- | --------------------------- | -------- | ----------------- |
+| `thresholdDb`     | Compressor threshold        | -6 dB    | -40–0 dB / 1      |
+| `kneeDb`          | Compressor knee             | 6 dB     | 0–40 dB / 1       |
+| `ratio`           | Compressor ratio            | 12       | 1–20 / 0.5        |
+| `attackSeconds`   | Compressor attack           | 0.003 s  | 0.001–0.1 / 0.001 |
+| `releaseSeconds`  | Compressor release          | 0.12 s   | 0.02–1 / 0.01     |
+| `engineDriveLufs` | Engine loudness, compressed | -24 LUFS | -40–0 LUFS / 0.1  |
+
+## TIMING settings
+
+[Audio control](../src/audio/audio-control-policy.ts) supplies the control time constants (`ControlSettings`);
+each range is about a quarter to four times its default, with step 0.001 s (0.1 s for `musicFadeSeconds`, the
+implementer's value, not chosen by listening).
+
+| Key                  | Meaning                                   | Default | Range        |
+| -------------------- | ----------------------------------------- | ------- | ------------ |
+| `observationSeconds` | Kernel following of acoustic observations | 0.025 s | 0.006–0.1 s  |
+| `gainSeconds`        | Voice output gain following               | 0.025 s | 0.006–0.1 s  |
+| `mixSeconds`         | Bus and master gain following             | 0.015 s | 0.004–0.06 s |
+| `panSeconds`         | Rival pan following                       | 0.06 s  | 0.015–0.24 s |
+| `fadeSeconds`        | Linear fade to silence                    | 0.01 s  | 0.003–0.04 s |
+| `componentSeconds`   | R/Q output switching in the tire kernel   | 0.005 s | 0.001–0.02 s |
+| `transitionSeconds`  | Woken kernels follow before heard         | 0.09 s  | 0.023–0.36 s |
+| `musicFadeSeconds`   | Run's track fade at GOAL and GAME OVER    | 2 s     | 0.5–8 s      |
+
+## RIVAL settings
+
+[Audio scene](../src/audio/audio-scene.ts) supplies the rival settings (`RivalSettings`). The gain is the derived
+inverse-distance law `referenceMeters/max(referenceMeters, distance)`; the audible cutoff is game policy.
+
+| Key                   | Meaning                        | Default | Range / step      |
+| --------------------- | ------------------------------ | ------- | ----------------- |
+| `audibleMeters`       | Farthest selectable rival      | 100 m   | 20–300 m / 5      |
+| `referenceMeters`     | Distance of unity gain         | 3 m     | 1–20 m / 0.5      |
+| `panMinimumMeters`    | Pan denominator floor          | 3 m     | 1–20 m / 0.5      |
+| `reassignmentSeconds` | Wait before a new rival sounds | 0.09 s  | 0.02–0.5 s / 0.01 |
+
+## Derived values
+
+These values follow from physics under the stated [assumptions](audio.md#derived-values); DEV controls never
+change them.
+
+| Value                 | Derivation                                        | Value                 |
+| --------------------- | ------------------------------------------------- | --------------------- |
+| `ACOUSTICS.waveSpeed` | `sqrt(gamma*R*T)` at 573.15 K, rounded            | 480 m/s               |
+| Mouth corner          | `c/(2*pi*a)` at the open pipe's radius `a`        | per tube              |
+| Wall loss             | Kirchhoff `alpha(f)`, four shelves at 20·8^k Hz   | per tube              |
+| Steepening            | `(gamma+1)/2`                                     | 1.2                   |
+| Swept volume          | displacement / cylinders                          | per vehicle           |
+| `BLOWDOWN_REFERENCE`  | Burned charge at exhaust opening; valve `C_d`     | 1100 K; 0.65          |
+| `GAS`                 | Intake charge; choked flow; closed charge         | 293.15 K; 0.5787; 0.3 |
+| Rival gain            | Inverse distance, unity within `referenceMeters`  | —                     |
+| Rival pan             | Lateral displacement / `max(panMinimumMeters, d)` | —                     |
+
+## Mix levels
+
+| Control | Default | Range / meaning                           |
+| ------- | ------- | ----------------------------------------- |
+| MASTER  | 35%     | 0–100%; complete audio output             |
+| MUSIC   | 100%    | 0–100%; the `music` bus                   |
+| EFFECTS | 100%    | 0–100%; the `effects` bus                 |
+| ENG     | 100%    | 0–100%; player and selected rival engines |
+| TIRE    | 100%    | 0–100%; player tire output                |
+| R       | ON      | Rolling output tap for both axles         |
+| Q       | ON      | Friction output tap for both axles        |

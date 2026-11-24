@@ -1,0 +1,1445 @@
+{
+  "TESTAROSSA": {
+    "name": "Ferrari Testarossa",
+    "sound": "TESTAROSSA",
+    "engine": {
+      "displacementCc": 4943,
+      "cycle": 4,
+      "compressionRatio": 9.2,
+      "idleRpm": 1000,
+      "redlineRpm": 6800,
+      "torqueCurve": [
+        {
+          "rpm": 1000,
+          "torqueNewtonMeters": 366
+        },
+        {
+          "rpm": 4000,
+          "torqueNewtonMeters": 486
+        },
+        {
+          "rpm": 4500,
+          "torqueNewtonMeters": 490
+        },
+        {
+          "rpm": 6300,
+          "torqueNewtonMeters": 435
+        },
+        {
+          "rpm": 6800,
+          "torqueNewtonMeters": 397
+        }
+      ]
+    },
+    "lufs": [
+      -39.649382563198245,
+      -40.47145371268763,
+      -42.32250962759235,
+      -45.84303900253468
+    ]
+  },
+  "911_TURBO_3_3_1986": {
+    "name": "Porsche 911 Turbo 3.3",
+    "sound": "911_TURBO_3_3_1986",
+    "engine": {
+      "displacementCc": 3299,
+      "cycle": 4,
+      "compressionRatio": 7,
+      "idleRpm": 950,
+      "redlineRpm": 6800,
+      "torqueCurve": [
+        {
+          "rpm": 950,
+          "torqueNewtonMeters": 137.6
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 342
+        },
+        {
+          "rpm": 4000,
+          "torqueNewtonMeters": 430
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 383.099766
+        },
+        {
+          "rpm": 6800,
+          "torqueNewtonMeters": 284.886916
+        }
+      ]
+    },
+    "lufs": [
+      -43.87203037746541,
+      -44.48389975482357,
+      -46.20152237687402,
+      -48.6997176664398
+    ]
+  },
+  "CORVETTE_C4": {
+    "name": "Chevrolet Corvette",
+    "sound": "CORVETTE_C4",
+    "engine": {
+      "displacementCc": 5733,
+      "cycle": 4,
+      "compressionRatio": 9.5,
+      "idleRpm": 700,
+      "redlineRpm": 5200,
+      "torqueCurve": [
+        {
+          "rpm": 700,
+          "torqueNewtonMeters": 340
+        },
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 420
+        },
+        {
+          "rpm": 3200,
+          "torqueNewtonMeters": 461
+        },
+        {
+          "rpm": 4300,
+          "torqueNewtonMeters": 406
+        },
+        {
+          "rpm": 5200,
+          "torqueNewtonMeters": 315
+        }
+      ]
+    },
+    "lufs": [
+      -27.86814413330197,
+      -29.261500647454298,
+      -32.17080755654105,
+      -39.11383599179868
+    ]
+  },
+  "GOLF_GTI_16V": {
+    "name": "Volkswagen Golf GTI 16V",
+    "sound": "GOLF_GTI_16V",
+    "engine": {
+      "displacementCc": 1781,
+      "cycle": 4,
+      "compressionRatio": 10,
+      "idleRpm": 900,
+      "redlineRpm": 6800,
+      "torqueCurve": [
+        {
+          "rpm": 900,
+          "torqueNewtonMeters": 125
+        },
+        {
+          "rpm": 2800,
+          "torqueNewtonMeters": 160
+        },
+        {
+          "rpm": 4600,
+          "torqueNewtonMeters": 168
+        },
+        {
+          "rpm": 6100,
+          "torqueNewtonMeters": 160
+        },
+        {
+          "rpm": 6800,
+          "torqueNewtonMeters": 140
+        }
+      ]
+    },
+    "lufs": [
+      -30.989673063059723,
+      -32.61313009180999,
+      -36.11353353222724,
+      -44.789666263043294
+    ]
+  },
+  "DELTA_HF_INTEGRALE": {
+    "name": "Lancia Delta HF Integrale",
+    "sound": "DELTA_HF_INTEGRALE",
+    "engine": {
+      "displacementCc": 1995,
+      "cycle": 4,
+      "compressionRatio": 8,
+      "idleRpm": 900,
+      "redlineRpm": 6500,
+      "torqueCurve": [
+        {
+          "rpm": 900,
+          "torqueNewtonMeters": 130
+        },
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 200
+        },
+        {
+          "rpm": 3500,
+          "torqueNewtonMeters": 304
+        },
+        {
+          "rpm": 5300,
+          "torqueNewtonMeters": 245
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 185
+        }
+      ]
+    },
+    "lufs": [
+      -39.43308588522152,
+      -41.09189340390398,
+      -44.54516183466565,
+      -50.635059879570846
+    ]
+  },
+  "S13_DRIFT_TUNED": {
+    "name": "Nissan Silvia",
+    "sound": "DELTA_HF_INTEGRALE",
+    "engine": {
+      "displacementCc": 1809,
+      "cycle": 4,
+      "compressionRatio": 8.5,
+      "idleRpm": 800,
+      "redlineRpm": 7500,
+      "torqueCurve": [
+        {
+          "rpm": 800,
+          "torqueNewtonMeters": 99.2
+        },
+        {
+          "rpm": 2400,
+          "torqueNewtonMeters": 148.9
+        },
+        {
+          "rpm": 4000,
+          "torqueNewtonMeters": 225.6
+        },
+        {
+          "rpm": 6400,
+          "torqueNewtonMeters": 192
+        },
+        {
+          "rpm": 7500,
+          "torqueNewtonMeters": 155.7
+        }
+      ]
+    },
+    "lufs": [
+      -38.33471790060199,
+      -39.769036702764566,
+      -43.36298067646375,
+      -50.252797402196876
+    ]
+  },
+  "AE86_DRIFT_TUNED": {
+    "name": "Toyota Corolla Levin",
+    "sound": "GOLF_GTI_16V",
+    "engine": {
+      "displacementCc": 1587,
+      "cycle": 4,
+      "compressionRatio": 9.4,
+      "idleRpm": 800,
+      "redlineRpm": 7700,
+      "torqueCurve": [
+        {
+          "rpm": 800,
+          "torqueNewtonMeters": 110.3
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 129.7
+        },
+        {
+          "rpm": 5200,
+          "torqueNewtonMeters": 149.1
+        },
+        {
+          "rpm": 6600,
+          "torqueNewtonMeters": 138.3
+        },
+        {
+          "rpm": 7700,
+          "torqueNewtonMeters": 113
+        }
+      ]
+    },
+    "lufs": [
+      -30.50861682647573,
+      -32.23441664959006,
+      -35.79796073969313,
+      -44.210050907432375
+    ]
+  },
+  "VFR750R": {
+    "name": "Honda VFR750R",
+    "sound": "VFR750R",
+    "engine": {
+      "displacementCc": 748,
+      "cycle": 4,
+      "compressionRatio": 11,
+      "idleRpm": 1200,
+      "redlineRpm": 12500,
+      "torqueCurve": [
+        {
+          "rpm": 1200,
+          "torqueNewtonMeters": 36
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 62
+        },
+        {
+          "rpm": 10500,
+          "torqueNewtonMeters": 72.5
+        },
+        {
+          "rpm": 11000,
+          "torqueNewtonMeters": 71.5
+        },
+        {
+          "rpm": 12500,
+          "torqueNewtonMeters": 61
+        }
+      ]
+    },
+    "lufs": [
+      -32.180570124667916,
+      -34.135367649346605,
+      -37.86429310038275,
+      -47.06034215491807
+    ]
+  },
+  "R80_GS_PARIS_DAKAR": {
+    "name": "BMW R 80 G/S Paris-Dakar",
+    "sound": "R80_GS_PARIS_DAKAR",
+    "engine": {
+      "displacementCc": 797,
+      "cycle": 4,
+      "compressionRatio": 8.2,
+      "idleRpm": 950,
+      "redlineRpm": 7000,
+      "torqueCurve": [
+        {
+          "rpm": 950,
+          "torqueNewtonMeters": 40
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 50
+        },
+        {
+          "rpm": 5000,
+          "torqueNewtonMeters": 56
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 54
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 49
+        }
+      ]
+    },
+    "lufs": [
+      -35.32312266514895,
+      -37.8268616123754,
+      -43.27017166798761,
+      -54.448883010931986
+    ]
+  },
+  "FXRT_SPORT_GLIDE": {
+    "name": "Harley-Davidson FXRT Sport Glide",
+    "sound": "FXRT_SPORT_GLIDE",
+    "engine": {
+      "displacementCc": 1337,
+      "cycle": 4,
+      "compressionRatio": 8.5,
+      "idleRpm": 850,
+      "redlineRpm": 5800,
+      "torqueCurve": [
+        {
+          "rpm": 850,
+          "torqueNewtonMeters": 78
+        },
+        {
+          "rpm": 2000,
+          "torqueNewtonMeters": 96
+        },
+        {
+          "rpm": 3500,
+          "torqueNewtonMeters": 103
+        },
+        {
+          "rpm": 5000,
+          "torqueNewtonMeters": 86
+        },
+        {
+          "rpm": 5800,
+          "torqueNewtonMeters": 70
+        }
+      ]
+    },
+    "lufs": [
+      -35.742743649803764,
+      -37.7590051741539,
+      -41.47011619671245,
+      -50.698782315247136
+    ]
+  },
+  "PX200E_ARCOBALENO": {
+    "name": "Vespa PX 200 E Arcobaleno",
+    "sound": "PX200E_ARCOBALENO",
+    "engine": {
+      "displacementCc": 198,
+      "cycle": 2,
+      "compressionRatio": 9.8,
+      "idleRpm": 900,
+      "redlineRpm": 6500,
+      "torqueCurve": [
+        {
+          "rpm": 900,
+          "torqueNewtonMeters": 8
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 13.5
+        },
+        {
+          "rpm": 4500,
+          "torqueNewtonMeters": 16.5
+        },
+        {
+          "rpm": 5700,
+          "torqueNewtonMeters": 14.8
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 12.2
+        }
+      ]
+    },
+    "lufs": [
+      -42.629107655314684,
+      -46.6787281618719,
+      -55.02381642962287,
+      -67.90719683826592
+    ]
+  },
+  "XR600R_1985": {
+    "name": "Honda XR600R",
+    "sound": "XR600R_1985",
+    "engine": {
+      "displacementCc": 591,
+      "cycle": 4,
+      "compressionRatio": 9,
+      "idleRpm": 1300,
+      "redlineRpm": 7000,
+      "torqueCurve": [
+        {
+          "rpm": 1300,
+          "torqueNewtonMeters": 36
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 46
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 51.9
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 47.5
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 42
+        }
+      ]
+    },
+    "lufs": [
+      -41.861542504952794,
+      -43.03755974099302,
+      -45.47800017162918,
+      -51.681785360593516
+    ]
+  },
+  "NSR500_1984": {
+    "name": "Honda NSR500",
+    "sound": "NSR500_1984",
+    "engine": {
+      "displacementCc": 499.2,
+      "cycle": 2,
+      "compressionRatio": 11,
+      "idleRpm": 2500,
+      "redlineRpm": 12500,
+      "torqueCurve": [
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 16
+        },
+        {
+          "rpm": 7500,
+          "torqueNewtonMeters": 43
+        },
+        {
+          "rpm": 11000,
+          "torqueNewtonMeters": 90.22118
+        },
+        {
+          "rpm": 11500,
+          "torqueNewtonMeters": 88.80142
+        },
+        {
+          "rpm": 12500,
+          "torqueNewtonMeters": 79.92127
+        }
+      ]
+    },
+    "lufs": [
+      -48.26118375568482,
+      -50.77900258690896,
+      -57.77487917652105,
+      -69.3695768424034
+    ]
+  },
+  "YZR500_0W98": {
+    "name": "Yamaha YZR500",
+    "sound": "YZR500_0W98",
+    "engine": {
+      "displacementCc": 499,
+      "cycle": 2,
+      "compressionRatio": 11,
+      "idleRpm": 2500,
+      "redlineRpm": 12500,
+      "torqueCurve": [
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 17
+        },
+        {
+          "rpm": 7800,
+          "torqueNewtonMeters": 45
+        },
+        {
+          "rpm": 10500,
+          "torqueNewtonMeters": 94
+        },
+        {
+          "rpm": 11500,
+          "torqueNewtonMeters": 91.61081
+        },
+        {
+          "rpm": 12500,
+          "torqueNewtonMeters": 81.5
+        }
+      ]
+    },
+    "lufs": [
+      -35.07992609900871,
+      -39.31785951341442,
+      -47.999401039093996,
+      -62.94808635725674
+    ]
+  },
+  "MCLAREN_MP4_4": {
+    "name": "McLaren Honda MP4/4",
+    "sound": "MCLAREN_MP4_4",
+    "engine": {
+      "displacementCc": 1494,
+      "cycle": 4,
+      "compressionRatio": 9.4,
+      "idleRpm": 3000,
+      "redlineRpm": 13000,
+      "torqueCurve": [
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 110
+        },
+        {
+          "rpm": 8000,
+          "torqueNewtonMeters": 400
+        },
+        {
+          "rpm": 10000,
+          "torqueNewtonMeters": 424.37102
+        },
+        {
+          "rpm": 12500,
+          "torqueNewtonMeters": 384.88756
+        },
+        {
+          "rpm": 13000,
+          "torqueNewtonMeters": 360
+        }
+      ]
+    },
+    "lufs": [
+      -31.24811117546277,
+      -32.44850033119673,
+      -35.25793326523914,
+      -40.261177790144316
+    ]
+  },
+  "FERRARI_640": {
+    "name": "Ferrari 640 / F1-89",
+    "sound": "FERRARI_640",
+    "engine": {
+      "displacementCc": 3497.96,
+      "cycle": 4,
+      "compressionRatio": 11.5,
+      "idleRpm": 3000,
+      "redlineRpm": 13500,
+      "torqueCurve": [
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 150
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 250
+        },
+        {
+          "rpm": 11000,
+          "torqueNewtonMeters": 355
+        },
+        {
+          "rpm": 12500,
+          "torqueNewtonMeters": 336.89918
+        },
+        {
+          "rpm": 13500,
+          "torqueNewtonMeters": 300
+        }
+      ]
+    },
+    "lufs": [
+      -28.019785406049944,
+      -29.404874766296604,
+      -32.043078164219224,
+      -38.10356014846517
+    ]
+  },
+  "LOTUS_79_SPECIAL": {
+    "name": "Lotus 79 SPECIAL",
+    "sound": "LOTUS_79_SPECIAL",
+    "engine": {
+      "displacementCc": 2993,
+      "cycle": 4,
+      "compressionRatio": 11.5,
+      "idleRpm": 2500,
+      "redlineRpm": 11500,
+      "torqueCurve": [
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 160
+        },
+        {
+          "rpm": 6000,
+          "torqueNewtonMeters": 360
+        },
+        {
+          "rpm": 9000,
+          "torqueNewtonMeters": 500
+        },
+        {
+          "rpm": 10500,
+          "torqueNewtonMeters": 454.72841
+        },
+        {
+          "rpm": 11500,
+          "torqueNewtonMeters": 400
+        }
+      ]
+    },
+    "lufs": [
+      -28.590845791443563,
+      -30.336473454623373,
+      -33.39885799819572,
+      -40.819909666303886
+    ]
+  },
+  "MCLAREN_M23_PP_SPEC": {
+    "name": "McLaren M23 PP SPEC",
+    "sound": "LOTUS_79_SPECIAL",
+    "engine": {
+      "displacementCc": 2993,
+      "cycle": 4,
+      "compressionRatio": 11.5,
+      "idleRpm": 3000,
+      "redlineRpm": 11200,
+      "torqueCurve": [
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 150
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 285
+        },
+        {
+          "rpm": 9000,
+          "torqueNewtonMeters": 330
+        },
+        {
+          "rpm": 10800,
+          "torqueNewtonMeters": 306.5947
+        },
+        {
+          "rpm": 11200,
+          "torqueNewtonMeters": 290
+        }
+      ]
+    },
+    "lufs": [
+      -28.728030056382533,
+      -30.567667406321558,
+      -33.56725891132721,
+      -41.250161736755885
+    ]
+  },
+  "CB900F_1981": {
+    "name": "Honda CB900F Super Sport",
+    "sound": "CB900F_1981",
+    "engine": {
+      "displacementCc": 902,
+      "cycle": 4,
+      "compressionRatio": 8.8,
+      "idleRpm": 1000,
+      "redlineRpm": 9500,
+      "torqueCurve": [
+        {
+          "rpm": 1000,
+          "torqueNewtonMeters": 30
+        },
+        {
+          "rpm": 4500,
+          "torqueNewtonMeters": 60
+        },
+        {
+          "rpm": 7500,
+          "torqueNewtonMeters": 76.49187
+        },
+        {
+          "rpm": 9000,
+          "torqueNewtonMeters": 70.41788023768386
+        },
+        {
+          "rpm": 9500,
+          "torqueNewtonMeters": 65
+        }
+      ]
+    },
+    "lufs": [
+      -34.02025093828637,
+      -36.449138227931435,
+      -41.27327998514787,
+      -51.50952848577437
+    ]
+  },
+  "GSX1100SZ": {
+    "name": "Suzuki GSX1100S KATANA",
+    "sound": "GSX1100SZ",
+    "engine": {
+      "displacementCc": 1074,
+      "cycle": 4,
+      "compressionRatio": 9.5,
+      "idleRpm": 1050,
+      "redlineRpm": 9500,
+      "torqueCurve": [
+        {
+          "rpm": 1050,
+          "torqueNewtonMeters": 35
+        },
+        {
+          "rpm": 4000,
+          "torqueNewtonMeters": 74
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 96.10517
+        },
+        {
+          "rpm": 8500,
+          "torqueNewtonMeters": 92.9906971017134
+        },
+        {
+          "rpm": 9500,
+          "torqueNewtonMeters": 79
+        }
+      ]
+    },
+    "lufs": [
+      -31.933875941133895,
+      -34.34438123021536,
+      -40.02376946093289,
+      -50.96262936542915
+    ]
+  },
+  "GPZ900R_A1": {
+    "name": "Kawasaki GPZ900R",
+    "sound": "GPZ900R_A1",
+    "engine": {
+      "displacementCc": 908,
+      "cycle": 4,
+      "compressionRatio": 11,
+      "idleRpm": 1000,
+      "redlineRpm": 10500,
+      "torqueCurve": [
+        {
+          "rpm": 1000,
+          "torqueNewtonMeters": 25
+        },
+        {
+          "rpm": 5000,
+          "torqueNewtonMeters": 62
+        },
+        {
+          "rpm": 8500,
+          "torqueNewtonMeters": 85.3
+        },
+        {
+          "rpm": 9500,
+          "torqueNewtonMeters": 85.03899906678534
+        },
+        {
+          "rpm": 10500,
+          "torqueNewtonMeters": 72
+        }
+      ]
+    },
+    "lufs": [
+      -31.134431079665948,
+      -32.80129827934195,
+      -37.03639683185166,
+      -45.66592594821968
+    ]
+  },
+  "GSX_R750_1985": {
+    "name": "Suzuki GSX-R750",
+    "sound": "GSX_R750_1985",
+    "engine": {
+      "displacementCc": 749,
+      "cycle": 4,
+      "compressionRatio": 9.8,
+      "idleRpm": 1200,
+      "redlineRpm": 11000,
+      "torqueCurve": [
+        {
+          "rpm": 1200,
+          "torqueNewtonMeters": 22
+        },
+        {
+          "rpm": 5000,
+          "torqueNewtonMeters": 48
+        },
+        {
+          "rpm": 8000,
+          "torqueNewtonMeters": 70.60788
+        },
+        {
+          "rpm": 10500,
+          "torqueNewtonMeters": 67.8181832144628
+        },
+        {
+          "rpm": 11000,
+          "torqueNewtonMeters": 62
+        }
+      ]
+    },
+    "lufs": [
+      -32.19780857883057,
+      -34.206445103952916,
+      -38.13278643357456,
+      -47.501434824605624
+    ]
+  },
+  "VMAX1200_1985": {
+    "name": "Yamaha VMAX1200",
+    "sound": "VMAX1200_1985",
+    "engine": {
+      "displacementCc": 1198,
+      "cycle": 4,
+      "compressionRatio": 10.5,
+      "idleRpm": 1000,
+      "redlineRpm": 9500,
+      "torqueCurve": [
+        {
+          "rpm": 1000,
+          "torqueNewtonMeters": 38
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 85
+        },
+        {
+          "rpm": 7500,
+          "torqueNewtonMeters": 117.685
+        },
+        {
+          "rpm": 9000,
+          "torqueNewtonMeters": 113.14334
+        },
+        {
+          "rpm": 9500,
+          "torqueNewtonMeters": 103
+        }
+      ]
+    },
+    "lufs": [
+      -31.061127441914024,
+      -33.439238588304576,
+      -37.80197435436961,
+      -47.664846453204476
+    ]
+  },
+  "PORSCHE_928_S4_1987": {
+    "name": "Porsche 928 S4",
+    "sound": "PORSCHE_928_S4_1987",
+    "engine": {
+      "displacementCc": 4957,
+      "cycle": 4,
+      "compressionRatio": 10,
+      "idleRpm": 675,
+      "redlineRpm": 6600,
+      "torqueCurve": [
+        {
+          "rpm": 675,
+          "torqueNewtonMeters": 249.4
+        },
+        {
+          "rpm": 1875,
+          "torqueNewtonMeters": 365.5
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 430
+        },
+        {
+          "rpm": 6000,
+          "torqueNewtonMeters": 374.014116
+        },
+        {
+          "rpm": 6600,
+          "torqueNewtonMeters": 306.691575
+        }
+      ]
+    },
+    "lufs": [
+      -41.7265676467362,
+      -42.41998642686104,
+      -44.0399947817983,
+      -47.18437135226589
+    ]
+  },
+  "TURBO_ESPRIT_1984": {
+    "name": "Lotus Turbo Esprit",
+    "sound": "TURBO_ESPRIT_1984",
+    "engine": {
+      "displacementCc": 2174,
+      "cycle": 4,
+      "compressionRatio": 7.5,
+      "idleRpm": 950,
+      "redlineRpm": 7000,
+      "torqueCurve": [
+        {
+          "rpm": 950,
+          "torqueNewtonMeters": 86.4
+        },
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 190
+        },
+        {
+          "rpm": 4500,
+          "torqueNewtonMeters": 271.16359
+        },
+        {
+          "rpm": 6250,
+          "torqueNewtonMeters": 239.262592
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 196.195325
+        }
+      ]
+    },
+    "lufs": [
+      -46.95867286676434,
+      -47.73863939946722,
+      -49.494125364718386,
+      -53.125511007416016
+    ]
+  },
+  "COUNTACH_5000_QV_1985": {
+    "name": "Lamborghini Countach 5000 QV",
+    "sound": "COUNTACH_5000_QV_1985",
+    "engine": {
+      "displacementCc": 5167,
+      "cycle": 4,
+      "compressionRatio": 9.5,
+      "idleRpm": 1000,
+      "redlineRpm": 7500,
+      "torqueCurve": [
+        {
+          "rpm": 1000,
+          "torqueNewtonMeters": 290
+        },
+        {
+          "rpm": 3100,
+          "torqueNewtonMeters": 425
+        },
+        {
+          "rpm": 5200,
+          "torqueNewtonMeters": 500
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 456.527221
+        },
+        {
+          "rpm": 7500,
+          "torqueNewtonMeters": 374.352321
+        }
+      ]
+    },
+    "lufs": [
+      -36.49055194109478,
+      -37.187708161469224,
+      -38.628610297035706,
+      -41.24632766943778
+    ]
+  },
+  "FERRARI_GTO_1984": {
+    "name": "Ferrari GTO",
+    "sound": "FERRARI_GTO_1984",
+    "engine": {
+      "displacementCc": 2855.08,
+      "cycle": 4,
+      "compressionRatio": 7.6,
+      "idleRpm": 950,
+      "redlineRpm": 7700,
+      "torqueCurve": [
+        {
+          "rpm": 950,
+          "torqueNewtonMeters": 158.72
+        },
+        {
+          "rpm": 3000,
+          "torqueNewtonMeters": 350
+        },
+        {
+          "rpm": 3800,
+          "torqueNewtonMeters": 496
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 401.342612
+        },
+        {
+          "rpm": 7700,
+          "torqueNewtonMeters": 329.100941
+        }
+      ]
+    },
+    "lufs": [
+      -45.92968338629113,
+      -46.82288649819768,
+      -48.53747334999126,
+      -51.71269300768286
+    ]
+  },
+  "PORSCHE_928_S_1984": {
+    "name": "Porsche 928 S",
+    "sound": "PORSCHE_928_S_1984",
+    "engine": {
+      "displacementCc": 4664,
+      "cycle": 4,
+      "compressionRatio": 9.3,
+      "idleRpm": 750,
+      "redlineRpm": 6100,
+      "torqueCurve": [
+        {
+          "rpm": 750,
+          "torqueNewtonMeters": 207.06
+        },
+        {
+          "rpm": 2375,
+          "torqueNewtonMeters": 303.45
+        },
+        {
+          "rpm": 4000,
+          "torqueNewtonMeters": 357
+        },
+        {
+          "rpm": 5250,
+          "torqueNewtonMeters": 316.490973
+        },
+        {
+          "rpm": 6100,
+          "torqueNewtonMeters": 258.919758
+        }
+      ]
+    },
+    "lufs": [
+      -34.485262581177096,
+      -36.0867912444553,
+      -39.36960219397884,
+      -43.879440174254086
+    ]
+  },
+  "TOYOTA_PICKUP_1980": {
+    "name": "Toyota Pickup Long Bed",
+    "sound": "TOYOTA_PICKUP_1980",
+    "engine": {
+      "displacementCc": 2189,
+      "cycle": 4,
+      "compressionRatio": 8.4,
+      "idleRpm": 800,
+      "redlineRpm": 5500,
+      "torqueCurve": [
+        {
+          "rpm": 800,
+          "torqueNewtonMeters": 95.937678
+        },
+        {
+          "rpm": 1600,
+          "torqueNewtonMeters": 140.598321
+        },
+        {
+          "rpm": 2400,
+          "torqueNewtonMeters": 165.40979
+        },
+        {
+          "rpm": 4800,
+          "torqueNewtonMeters": 140.934686
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 115.566443
+        }
+      ]
+    },
+    "lufs": [
+      -41.50913698733697,
+      -42.66795421536921,
+      -45.71335218198108,
+      -51.72380333966345
+    ]
+  },
+  "FERRARI_F40_1988": {
+    "name": "Ferrari F40",
+    "sound": "FERRARI_F40_1988",
+    "engine": {
+      "displacementCc": 2936.25,
+      "cycle": 4,
+      "compressionRatio": 7.7,
+      "idleRpm": 1000,
+      "redlineRpm": 7750,
+      "torqueCurve": [
+        {
+          "rpm": 1000,
+          "torqueNewtonMeters": 184.64
+        },
+        {
+          "rpm": 2000,
+          "torqueNewtonMeters": 271.19
+        },
+        {
+          "rpm": 4000,
+          "torqueNewtonMeters": 577
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 479.511107
+        },
+        {
+          "rpm": 7750,
+          "torqueNewtonMeters": 393.199108
+        }
+      ]
+    },
+    "lufs": [
+      -46.660413408569426,
+      -47.62490019799735,
+      -49.248428642433396,
+      -51.86730759938248
+    ]
+  },
+  "PORSCHE_959_1987": {
+    "name": "Porsche 959 Komfort",
+    "sound": "PORSCHE_959_1987",
+    "engine": {
+      "displacementCc": 2849,
+      "cycle": 4,
+      "compressionRatio": 8.3,
+      "idleRpm": 900,
+      "redlineRpm": 7300,
+      "torqueCurve": [
+        {
+          "rpm": 900,
+          "torqueNewtonMeters": 160
+        },
+        {
+          "rpm": 2500,
+          "torqueNewtonMeters": 401
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 500
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 486.24201
+        },
+        {
+          "rpm": 7300,
+          "torqueNewtonMeters": 398.718448
+        }
+      ]
+    },
+    "lufs": [
+      -44.47957490019463,
+      -45.09051478675894,
+      -46.899168879637315,
+      -48.86981674174076
+    ]
+  },
+  "CORVETTE_C4_1984": {
+    "name": "Chevrolet Corvette",
+    "sound": "CORVETTE_C4_1984",
+    "engine": {
+      "displacementCc": 5733,
+      "cycle": 4,
+      "compressionRatio": 9,
+      "idleRpm": 700,
+      "redlineRpm": 5200,
+      "torqueCurve": [
+        {
+          "rpm": 700,
+          "torqueNewtonMeters": 228.048579
+        },
+        {
+          "rpm": 1750,
+          "torqueNewtonMeters": 334.209124
+        },
+        {
+          "rpm": 2800,
+          "torqueNewtonMeters": 393.187205
+        },
+        {
+          "rpm": 4300,
+          "torqueNewtonMeters": 339.485266
+        },
+        {
+          "rpm": 5200,
+          "torqueNewtonMeters": 261.640505
+        }
+      ]
+    },
+    "lufs": [
+      -37.44176561217152,
+      -39.096653294963865,
+      -42.09530436615562,
+      -47.497967834525355
+    ]
+  },
+  "AUSTIN_MINI_850_1964": {
+    "name": "Austin Mini 850",
+    "sound": "AUSTIN_MINI_850_1964",
+    "engine": {
+      "displacementCc": 848,
+      "cycle": 4,
+      "compressionRatio": 8.3,
+      "idleRpm": 800,
+      "redlineRpm": 6000,
+      "torqueCurve": [
+        {
+          "rpm": 800,
+          "torqueNewtonMeters": 34.600474
+        },
+        {
+          "rpm": 1850,
+          "torqueNewtonMeters": 50.707591
+        },
+        {
+          "rpm": 2900,
+          "torqueNewtonMeters": 59.65599
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 44.020174
+        },
+        {
+          "rpm": 6000,
+          "torqueNewtonMeters": 36.096543
+        }
+      ]
+    },
+    "lufs": [
+      -41.190997063505414,
+      -42.69856067426394,
+      -45.355538817569546,
+      -51.67340003714822
+    ]
+  },
+  "WRANGLER_YJ_1995": {
+    "name": "Jeep Wrangler S",
+    "sound": "WRANGLER_YJ_1995",
+    "engine": {
+      "displacementCc": 2464,
+      "cycle": 4,
+      "compressionRatio": 9.1,
+      "idleRpm": 800,
+      "redlineRpm": 5500,
+      "torqueCurve": [
+        {
+          "rpm": 800,
+          "torqueNewtonMeters": 109.306043
+        },
+        {
+          "rpm": 2025,
+          "torqueNewtonMeters": 160.189891
+        },
+        {
+          "rpm": 3250,
+          "torqueNewtonMeters": 188.458695
+        },
+        {
+          "rpm": 5250,
+          "torqueNewtonMeters": 166.832759
+        },
+        {
+          "rpm": 5500,
+          "torqueNewtonMeters": 136.802862
+        }
+      ]
+    },
+    "lufs": [
+      -39.048295935744136,
+      -40.4246964671915,
+      -43.442431827295536,
+      -49.66518586248179
+    ]
+  },
+  "NOVA_250_1977": {
+    "name": "Chevrolet Nova 250 Sedan",
+    "sound": "NOVA_250_1977",
+    "engine": {
+      "displacementCc": 4097,
+      "cycle": 4,
+      "compressionRatio": 8.25,
+      "idleRpm": 650,
+      "redlineRpm": 4500,
+      "torqueCurve": [
+        {
+          "rpm": 650,
+          "torqueNewtonMeters": 153.34301
+        },
+        {
+          "rpm": 1125,
+          "torqueNewtonMeters": 224.726825
+        },
+        {
+          "rpm": 1600,
+          "torqueNewtonMeters": 264.3845
+        },
+        {
+          "rpm": 3800,
+          "torqueNewtonMeters": 206.131619
+        },
+        {
+          "rpm": 4500,
+          "torqueNewtonMeters": 164.037373
+        }
+      ]
+    },
+    "lufs": [
+      -42.12175591855578,
+      -43.58422967374727,
+      -46.51707000643685,
+      -52.54814015921208
+    ]
+  },
+  "NOVA_9C1_1977": {
+    "name": "Chevrolet Nova 9C1",
+    "sound": "NOVA_9C1_1977",
+    "engine": {
+      "displacementCc": 5001,
+      "cycle": 4,
+      "compressionRatio": 8.5,
+      "idleRpm": 650,
+      "redlineRpm": 4500,
+      "torqueCurve": [
+        {
+          "rpm": 650,
+          "torqueNewtonMeters": 192.66173
+        },
+        {
+          "rpm": 1525,
+          "torqueNewtonMeters": 282.349088
+        },
+        {
+          "rpm": 2400,
+          "torqueNewtonMeters": 332.175397
+        },
+        {
+          "rpm": 3800,
+          "torqueNewtonMeters": 271.718952
+        },
+        {
+          "rpm": 4500,
+          "torqueNewtonMeters": 216.231082
+        }
+      ]
+    },
+    "lufs": [
+      -38.67819276993134,
+      -39.80554010118776,
+      -42.35175737476159,
+      -47.68800267513259
+    ]
+  },
+  "RX_7_TURBO_II_1987": {
+    "name": "Mazda RX-7 Turbo II",
+    "sound": "RX_7_TURBO_II_1987",
+    "engine": {
+      "displacementCc": 1308,
+      "cycle": 2,
+      "compressionRatio": 8.5,
+      "idleRpm": 750,
+      "redlineRpm": 7000,
+      "torqueCurve": [
+        {
+          "rpm": 750,
+          "torqueNewtonMeters": 110
+        },
+        {
+          "rpm": 2000,
+          "torqueNewtonMeters": 180
+        },
+        {
+          "rpm": 3500,
+          "torqueNewtonMeters": 248.114684
+        },
+        {
+          "rpm": 6500,
+          "torqueNewtonMeters": 199.385493
+        },
+        {
+          "rpm": 7000,
+          "torqueNewtonMeters": 180
+        }
+      ]
+    },
+    "lufs": [
+      -42.47251360557323,
+      -43.10438129443996,
+      -44.70696852392146,
+      -47.61905401412605
+    ]
+  }
+}
