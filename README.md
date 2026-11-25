@@ -57,10 +57,11 @@ chain, Engine loudness) and [origin/docs/calibration.md](origin/docs/calibration
 | `page/` | The free-rev page: `sim.ts` (a stand-in engine, the kernel, the chain), `page.html`, `build.mjs`, `check.mjs`. |
 | `origin/` | The game's files that touch this kernel and were not made to run here, at their paths, unchanged: the worklet and its voice, the document reader, the loudness tool and ledger, the original tests, the two documents. Also the engines' sources as the game recorded them (from its main `f196885`): the three vehicle documents (`docs/chase-turbo-vehicles.md`, `docs/racing-vehicles.md`, `docs/road-bikes.md`) and their numeric ledgers, whose `sound.exhaust.*` rows give each primary's and pipe's source. And one engine sound the game gained after the copy, as first written (`content/engine-sounds/VOLKSWAGEN_BEETLE_1500_1968.json`, from `dffe8e0`); it is not among `engines/`. |
 | `workshop/` | The listening workshop the kernel was designed in, as it stood (Claude's, 2026-11-20 to 11-22): the reference kernel the game's was written from (`kernel.ts`), the drive and measures, and the mufflers' candidates. It names absolute paths and does not run here. |
-| `notes/` | The mufflers' rules and each car's instruction, in Japanese, as written for the game's implementer. |
+| `notes/` | In Japanese, as written for K and the game's implementer: the design whole, the instructions the kernel was written from, the mufflers' rules and each car's instruction. |
 
-The kernel's design history (the research memos, the reference kernel's five forms, the design written down) lives
-in the SUPER OUTRIDE project's documents and is not copied here; `notes/README.md` names them.
+The design as it was settled, and the instructions the game's kernel was written from, are in `notes/`. The research
+before it and the reference kernel's earlier forms stay in the SUPER OUTRIDE project's documents; `notes/README.md`
+names them.
 
 ## 日本語
 
